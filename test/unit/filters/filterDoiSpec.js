@@ -20,4 +20,18 @@
  * waive the privileges and immunities granted to it by virtue of its status
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
-!function(e){function i(e){e.decorator("invenioSearchAPI",["$delegate",function(e){var i=e.search;return e.search=function(e){return e.headers={Accept:"application/vnd+inspire.brief+json"},i(e)},e}])}i.$inject=["$provide"],e.module("inspirehepSearch.configuration",[]).config(i),e.module("inspirehepSearch",["invenioSearch","inspirehepSearch.filters","inspirehepSearch.configuration"])}(angular),function(e){e.module("inspirehepSearch.filters",["ngSanitize","inspirehepSearch.filters.doi"])}(angular),function(e){function i(){return function(e){for(var i=0;i<e.length;i++)if(e[i].value)return'<a href="http://dx.doi.org/'+e[i].value+'" title="DOI" >'+e[i].value+"</a>"}}e.module("inspirehepSearch.filters.doi",[]).filter("doi",i)}(angular);
+
+'use strict';
+
+describe('Test doi filter', function() {
+  beforeEach(angular.mock.module('inspirehepSearch.filters'));
+  beforeEach(angular.mock.module('ngSanitize'));
+
+  it('should return a link to the only value in Array',
+    inject(function(doiFilter) {
+      var doi = [{value: '10.1007/JHEP09(2011)109'}];
+      expect(doiFilter(doi)).to.be.equal('<a href="http://dx.doi.org/10.1007/JHEP09(2011)109" title="DOI" >10.1007/JHEP09(2011)109</a>');
+    })
+  );
+
+});

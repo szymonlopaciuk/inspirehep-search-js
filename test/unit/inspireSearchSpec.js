@@ -23,14 +23,28 @@
 
 'use strict';
 
-describe('Test doi filter', function() {
-  beforeEach(angular.mock.module('inspirehepSearch.filters'));
-  beforeEach(angular.mock.module('ngSanitize'));
+describe('Unit: testing dependencies', function() {
 
-  it('should return a link to the only value in Array',
-      inject(function(doiFilter) {
-        var doi = [{value: '10.1007/JHEP09(2011)109'}];
-        expect(doiFilter(doi)).to.be.equal('<a href="http://dx.doi.org/10.1007/JHEP09(2011)109" title="DOI" >10.1007/JHEP09(2011)109</a>');
-      })
-    );
+  var module;
+  var dependencies;
+  dependencies = [];
+
+  var hasModule = function(module) {
+    return dependencies.indexOf(module) >= 0;
+  };
+
+  beforeEach(function() {
+    // Get module
+    module = angular.module('inspirehepSearch');
+    dependencies = module.requires;
+  });
+
+  it('should load filters module', function() {
+    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
+  });
+
+  it('should load configuration module', function() {
+    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
+  });
+
 });
