@@ -21,33 +21,27 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-'use strict';
+(function(angular) {
+  
+  function publicationInfoDoiFilter() {
+    return function(input, pub_info) {
+      if (input === undefined) {
+        return;
+      }
 
-describe('Unit: testing dependencies', function() {
+      var pub_info_and_doi = 'Published in ';
+      pub_info_and_doi += '<a href="http://dx.doi.org/' + input[0].value + '" title="DOI">'  +
+          '<span class="text-left">' + pub_info['pub_info'][0] + '</span>' + '</a>';
 
-  var module;
-  var dependencies;
-  dependencies = [];
+      if (pub_info['conf_info']) {
+        pub_info_and_doi += ' ' + pub_info['conf_info'];
+      }
+      
+      return pub_info_and_doi;
+    };
+  }
 
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
+  angular.module('inspirehepSearch.filters.publicationInfoDoi', [])
+    .filter('publicationInfoDoi', publicationInfoDoiFilter);
 
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehepSearch');
-    dependencies = module.requires;
-  });
-
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load configuration module', function() {
-    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
-});
+})(angular);

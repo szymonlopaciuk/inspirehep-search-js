@@ -26,9 +26,19 @@
   // Setup module
   angular.module('inspirehepSearch.filters', [
     'ngSanitize', // Allows displaying non-escaped-HTML in filters 
+    'inspirehepSearch.filters.abstract',
+    'inspirehepSearch.filters.arxiv',
+    'inspirehepSearch.filters.arxivInfo',
     'inspirehepSearch.filters.capitalize',
-    'inspirehepSearch.filters.doi',
+    'inspirehepSearch.filters.collaboration',
+    'inspirehepSearch.filters.corporateAuthor',
     'inspirehepSearch.filters.date',
+    'inspirehepSearch.filters.datePassedNow',
+    'inspirehepSearch.filters.doi',
+    'inspirehepSearch.filters.publicationInfo',
+    'inspirehepSearch.filters.publicationInfoDoi',
+    'inspirehepSearch.filters.reportNumber',
+    'inspirehepSearch.filters.title'
   ]);
 
 })(angular);

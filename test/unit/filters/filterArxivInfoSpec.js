@@ -23,35 +23,28 @@
 
 'use strict';
 
-describe('Test doi filter', function() {
+describe('Test arxiv info filter', function() {
   beforeEach(angular.mock.module('inspirehepSearch.filters'));
   beforeEach(angular.mock.module('ngSanitize'));
 
-  it('should return a link to the only value in Array',
-    inject(function(doiFilter) {
-      var doi = [{value: '10.1007/JHEP09(2011)109'}];
-      expect(doiFilter(doi)).to.be.equal('DOI: <a href="http://dx.doi.org/10.1007/JHEP09(2011)109" title="DOI" >10.1007/JHEP09(2011)109</a>');
-    })
-  );
-
   it('should return empty when no input passed',
-    inject(function(doiFilter) {
-      var doi = undefined;
-      expect(doiFilter(doi)).to.be.equal(undefined);
+    inject(function(arxivInfoFilter) {
+      var arxivInfo = undefined;
+      expect(arxivInfoFilter(arxivInfo)).to.be.equal(undefined);
     })
   );
 
-  it('should return multiple dois links separated by comma when multiple values in Array',
-    inject(function(doiFilter) {
-      var doi = [{value:'10.1007/JHEP01(2014)163'},{source:'bibmatch', value:'10.1007/JHEP01(2015)014'}];
-      expect(doiFilter(doi)).to.be.equal('DOI: <a href="http://dx.doi.org/10.1007/JHEP01(2014)163" title="DOI" >10.1007/JHEP01(2014)163</a>, <a href="http://dx.doi.org/10.1007/JHEP01(2015)014" title="DOI" >10.1007/JHEP01(2015)014</a>');
+  it('should return a link to the only value in Array with the category',
+    inject(function(arxivInfoFilter) {
+      var arxivInfo = [{categories:['gr-qc'],value:'arXiv:1301.6984'}];
+      expect(arxivInfoFilter(arxivInfo)).to.be.equal('e-Print: <a href="http://arxiv.org/abs/arXiv:1301.6984" >arXiv:1301.6984</a> [gr-qc]');
     })
   );
 
-  it('should return empty when no value is available',
-    inject(function(doiFilter) {
-      var doi = [{source:'bibmatch'}];
-      expect(doiFilter(doi)).to.be.equal('');
+  it('should return a link to the only value in Array without the category',
+    inject(function(arxivInfoFilter) {
+      var arxivInfo = [{value:'arXiv:1301.6984'}];
+      expect(arxivInfoFilter(arxivInfo)).to.be.equal('e-Print: <a href="http://arxiv.org/abs/arXiv:1301.6984" >arXiv:1301.6984</a> ');
     })
   );
 });

@@ -51,8 +51,10 @@ module.exports = function(config) {
       'node_modules/jquery/dist/jquery.js',
       'node_modules/angular/angular.js',
       'node_modules/angular-sanitize/angular-sanitize.js',
+      'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/invenio-search-js/dist/invenio-search-js.js',
+      'node_modules/angular-ui-bootstrap/**/**/*.html',
       'src/**/*.js',
       'src/**/*.html',
       'test/unit/**/*.js',
@@ -68,7 +70,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'src/**/*.js': ['coverage'],
-      'src/**/*.html': ['ng-html2js']
+      'src/**/**/**/*.html': ['ng-html2js'],
     },
 
     // Coverage reporter

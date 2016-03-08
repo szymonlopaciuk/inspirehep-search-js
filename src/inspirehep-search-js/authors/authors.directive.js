@@ -20,34 +20,47 @@
  * waive the privileges and immunities granted to it by virtue of its status
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
+ 
+(function(angular) {
 
-'use strict';
+  function authorsAffiliation() {
 
-describe('Unit: testing dependencies', function() {
+    function link(scope, element, attrs, vm) {
 
-  var module;
-  var dependencies;
-  dependencies = [];
+      if (attrs.authors !== '') {
+        vm.authors = JSON.parse(attrs.authors);          
+      }
 
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
+      if (attrs.collaboration !== '') {
+        vm.collaboration = JSON.parse(attrs.collaboration);  
+      }
 
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehepSearch');
-    dependencies = module.requires;
-  });
+      vm.numberOfAuthors = parseInt(attrs.numberOfAuthors);
 
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
+      vm.controlNumber = parseInt(attrs.controlNumber);
 
-  it('should load configuration module', function() {
-    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
-  });
+      vm.AUTHORS_LIMIT = 10;
 
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
-});
+      vm.authorsInfo = vm.getAuthors();
+   
+    }
+
+    function templateUrl(element, attrs) {
+      return attrs.authorsTemplate;
+    }
+
+    return {
+        templateUrl: templateUrl,
+        restrict: 'E',
+        controller: 'authorCtrl',
+        controllerAs: 'vm',
+        scope: true,
+        link: link
+      };
+  }
+
+
+  angular.module('authors.directives', [])
+    .directive('authorsAffiliation', authorsAffiliation);
+
+})(angular);
