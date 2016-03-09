@@ -34,4 +34,11 @@ describe('Test doi filter', function() {
     })
   );
 
+  it('should return empty when no input passed',
+    inject(function(doiFilter) {
+      var doi = undefined;
+      expect(doiFilter(doi)).to.be.equal(undefined);
+    })
+  );
+
 });

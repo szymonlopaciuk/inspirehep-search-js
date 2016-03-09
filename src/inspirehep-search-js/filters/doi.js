@@ -25,6 +25,9 @@
   
   function doiFilter() {
     return function(input) {
+      if ( input === undefined ) {
+        return;
+      }
       for (var i=0; i < input.length; i++) {
         if (input[i].value) {
           return '<a href="http://dx.doi.org/' + input[i].value + '" title="DOI" >' + input[i].value + '</a>';
