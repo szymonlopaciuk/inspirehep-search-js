@@ -41,9 +41,8 @@
           <div class="col-md-3 right-column" >
             <a type="button" class="btn custom-btn btn-warning link-to-pdf no-external-icon" href="http://arxiv.org/pdf/123 }}">PDF</a>
             <span class="dropdown">
-              <button class="btn btn-default dropdown-toggle dropdown-cite" type="button" id="dropdownMenu{{record.id}}" data-recid="{{record.id}}"  data-toggle="modal" data-target="#citeModal{{record.id}}">
-                <i class="fa fa-quote-right"></i> Cite
-              </button>
+                <inspire-cite-modal button-template="/static/node_modules/inspirehep-js/dist/templates/citemodal/templates/button.html" body-template="/static/node_modules/inspirehep-js/dist/templates/citemodal/templates/modalbody.html" recid={{record.id}}>
+                </inspire-cite-modal>
             </span>
             <div class="citations-references">
               <span ng-if="record.metadata.citation_count">
