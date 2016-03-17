@@ -67,6 +67,7 @@
   // Setup everything
   angular.module('inspirehepSearch', [
     'invenioSearch',
+    'inspirehepFacetsShowMore',
     'inspirehepSearch.filters',
     'inspirehepSearch.configuration',
   ]);
