@@ -23,12 +23,16 @@
 
 (function(angular) {
 
-  // Setup module
-  angular.module('inspirehepSearch.filters', [
-    'ngSanitize', // Allows displaying non-escaped-HTML in filters 
-    'inspirehepSearch.filters.capitalize',
-    'inspirehepSearch.filters.doi',
-  ]);
+  function capitalizeFilter() {
+    return function(token) {
+      if ( !token ) {
+        return '';
+      }
+      return token.charAt(0).toUpperCase() + token.slice(1);
+    };
+  }
 
+  angular.module('inspirehepSearch.filters.capitalize', [])
+    .filter('capitalize', capitalizeFilter);
 
 })(angular);

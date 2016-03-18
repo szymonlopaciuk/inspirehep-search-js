@@ -21,14 +21,30 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function(angular) {
+'use strict';
 
-  // Setup module
-  angular.module('inspirehepSearch.filters', [
-    'ngSanitize', // Allows displaying non-escaped-HTML in filters 
-    'inspirehepSearch.filters.capitalize',
-    'inspirehepSearch.filters.doi',
-  ]);
+describe('Test capitalize filter', function() {
+  beforeEach(angular.mock.module('inspirehepSearch.filters'));
 
+  it('should return the first letter capitalized',
+    inject(function(capitalizeFilter) {
+      var input = "myteststring";
+      expect(capitalizeFilter(input)).to.be.equal('Myteststring');
+    })
+  );
 
-})(angular);
+  it('should return empty string when receiving undefined input',
+    inject(function(capitalizeFilter) {
+      var input = undefined;
+      expect(capitalizeFilter(input)).to.be.equal('');
+    })
+  );
+
+  it('should return empty string when receiving empty string',
+    inject(function(capitalizeFilter) {
+      var input = '';
+      expect(capitalizeFilter(input)).to.be.equal('');
+    })
+  );
+
+});
