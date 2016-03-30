@@ -28,6 +28,7 @@
     'ngSanitize', // Allows displaying non-escaped-HTML in filters 
     'inspirehepSearch.filters.capitalize',
     'inspirehepSearch.filters.doi',
+    'inspirehepSearch.filters.date',
   ]);
 
 
