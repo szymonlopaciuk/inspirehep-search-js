@@ -1,3 +1,4 @@
+<div ng-controller="checkboxCtrl">
 <div class="row" ng-repeat="record in vm.invenioSearchResults.hits.hits track by record.metadata.control_number">
   <div class="col-md-12">
     <div id="panel-default-brief" class="panel panel-default" >
@@ -7,7 +8,7 @@
             <div class="row">
               <div class="col-md-1">
                 <span id='checkbox-parent'>
-                  <input type="checkbox" class="checkbox-results" id="{{record.id}}">
+                  <input type="checkbox" class="checkbox-results" ng-click="toggleId(record.id)" ng-checked="isChecked(record.id)" />
                 </span>
               </div>
               <div class="col-md-11">
@@ -19,7 +20,7 @@
                   <div class="authors">
                     <span ng-bind-html='record.metadata.collaboration | collaboration : record.metadata.corporate_author'></span>
                     <span ng-bind-html='record.metadata.authors | corporateAuthor : record.metadata.corporate_author'></span>
-                    <authors-affiliation authors-template="/static/node_modules/inspirehep-search-js/dist/templates/authors/authors.html" authors="{{record.metadata.authors}}" collaboration="{{record.metadata.collaboration}}" number-of-authors={{record.display.number_of_authors}} control-number="{{record.metadata.control_number}}"></authors-affiliation> 
+                    <authors-affiliation authors-template="/static/node_modules/inspirehep-search-js/dist/templates/authors/authors.html" authors="{{record.metadata.authors}}" collaboration="{{record.metadata.collaboration}}" number-of-authors={{record.display.number_of_authors}} control-number="{{record.metadata.control_number}}"></authors-affiliation>
                     <span id="record-date" ng-bind-html="record.display.date | date : record.metadata.authors : record.metadata.collaboration : record.metadata.corporate_author"></span>
                   </div>
                   <div class="row">
@@ -30,7 +31,7 @@
                       <div ng-if="record.display.publication_info_line.pub_info.length !== 1 || record.metadata.dois.length !== 1">
                         <div ng-bind-html='record.display.publication_info_line | publicationInfo' ></div>
                         <div ng-bind-html='record.metadata.dois | doi' ></div>
-                      </div>  
+                      </div>
                     </div>
                     <div ng-if="record.display.publication_info_line && !(record.display.publication_info_line.pub_info && record.metadata.dois)" class="col-md-12">
                       <div ng-bind-html='record.display.publication_info_line | publicationInfo' ></div>
@@ -54,11 +55,11 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3 right-column" >          
+          <div class="col-md-3 right-column" >
             <a ng-if="record.metadata.arxiv_eprints|arxiv" type="button" class="btn custom-btn btn-warning link-to-pdf no-external-icon" href="http://arxiv.org/pdf/{{ record.metadata.arxiv_eprints | arxiv }}" >PDF</a>
             <span class="dropdown">
-                <inspire-cite-modal button-template="/static/node_modules/inspirehep-js/dist/templates/citemodal/templates/button.html" body-template="/static/node_modules/inspirehep-js/dist/templates/citemodal/templates/modalbody.html" recid={{record.id}}>
-                </inspire-cite-modal>
+                <inspire-export-modal button-template="/static/node_modules/inspirehep-js/dist/templates/export/templates/button_single.html" body-template="/static/node_modules/inspirehep-js/dist/templates/export/templates/modalbody.html" recid={{record.id}}>
+                </inspire-export-modal>
             </span>
             <div class="citations-references">
               <span ng-if="record.metadata.citation_count">
@@ -73,4 +74,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>
