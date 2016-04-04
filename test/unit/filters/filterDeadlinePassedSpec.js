@@ -21,22 +21,25 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function (angular) {
+'use strict';
 
-    function doiFilter() {
-        return function (input) {
-            if (input === undefined) {
-                return;
-            }
-            for (var i = 0; i < input.length; i++) {
-                if (input[i].value) {
-                    return '<a href="http://dx.doi.org/' + input[i].value + '" title="DOI" >' + input[i].value + '</a>';
-                }
-            }
-        };
-    }
+describe('Test Deadline Passed filter', function () {
+    beforeEach(angular.mock.module('inspirehepSearch.filters'));
+    beforeEach(angular.mock.module('ngSanitize'));
 
-    angular.module('inspirehepSearch.filters.doi', [])
-        .filter('doi', doiFilter);
+    it('should return true if the date is in the future',
+        inject(function (datePassedNowFilter) {
+            var date = '2016-04-15';
+            console.log(datePassedNowFilter(date));
+            expect(datePassedNowFilter(date)).to.be.equal(true);
+        })
+    );
 
-})(angular);
+    it('should false if the date is less than the current date',
+        inject(function (datePassedNowFilter) {
+            var date = '2016-02-15';
+            expect(datePassedNowFilter(date)).to.be.equal(false);
+        })
+    );
+
+});

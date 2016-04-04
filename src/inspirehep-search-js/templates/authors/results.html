@@ -1,0 +1,36 @@
+<div class="row" ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
+    <div class="col-md-12">
+        <div id="panel-default-brief" class="authors panel panel-default">
+            <div class="panel-body">
+                <div class="row-fluid">
+                    <div class="col-md-9 left-column">
+
+                        <h4 class="">
+                            <a class="title" ng-if="record.metadata.name" ng-href="/authors/{{ record.id }}">
+                                {{ record.metadata.name.value }}
+                            </a>
+
+                            <span class="small-text" ng-repeat="position in record.metadata.positions">
+                                <span ng-if="position.institution.name">
+                                    {{ position.institution.name }}
+                                </span>
+                            </span>
+                        </h4>
+
+                        <div ng-if="record.metadata.field_categories">
+                            <ul class="research-area">
+                                <li ng-repeat="record in record.metadata.field_categories">
+                                    {{ record }}
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

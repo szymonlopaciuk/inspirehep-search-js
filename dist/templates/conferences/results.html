@@ -1,0 +1,54 @@
+<div class="row" ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
+    <div class="col-md-12">
+        <div id="panel-default-brief" class="conferences panel panel-default">
+            <div class="panel-body">
+                <div class="row-fluid">
+                    <div class="col-md-12">
+
+                        <h4 class="">
+                            <a class="title" ng-if="record.metadata.acronym" ng-href="/conferences/{{ record.id }}">
+                                {{ record.metadata.acronym[0][0] }}
+                            </a>
+
+                            <span class="conf-place" ng-if="record.metadata.place">
+                                <i class="fa fa-map-marker"></i> {{ record.metadata.place }}
+                            </span>
+
+
+                             <span class="conf-date" ng-if="record.metadata.date">
+                                    <i class="fa fa-calendar"></i> {{ record.metadata.date }}
+                                </span>
+                        </h4>
+
+                        <h4 class="custom-h">
+                            <a class="title" ng-href="/conferences/{{ record.id }}">
+                                {{ record.metadata.title }}
+                            </a>
+                        </h4>
+
+                        <div ng-if="record.metadata.field_code">
+                            <ul class="research-area">
+                                <li ng-repeat="record in record.metadata.field_code">
+                                    {{ record.value }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <p class="series small-text" ng-if="record.metadata.series">
+                            Part of the
+                            <a href="/search?q=&cc=conferences&series={{ record.metadata.series[0] }}">
+                                {{ record.metadata.series[0] }}
+                            </a> series.
+
+                            <a class="conf-link pull-right" ng-if="record.metadata.url[0]" ng-href="record.metadata.url[0][0]">
+                                  Go to conference website
+                            </a>
+                        </p>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

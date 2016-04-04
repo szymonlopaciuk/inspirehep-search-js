@@ -28,56 +28,56 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function(angular) {
-  // Configuration
+(function (angular) {
+    // Configuration
 
-  /**
-   * @ngdoc interface
-   * @name inspireSearchConfiguration
-   * @namespace inspireSearchConfiguration
-   * @param {service} $provide - Register components with the $injector.
-   * @description
-   *     Configuration of inspireSearch
-   */
-  function inspireSearchConfiguration($provide) {
-    $provide.decorator('invenioSearchAPI', ['$delegate', function($delegate) {
-      // Save the default function
-      var searchFn = $delegate.search;
-      $delegate.search = function(args) {
-        /*
-         * Args Object look like:
-         *
-         *   {
-         *      url: ....
-         *      method: ....
-         *      params: ....
-         *   }
-         *
-         */
-        args['headers'] = {
-            'Accept': 'application/vnd+inspire.brief+json'
-          };
-          // Call the original function with the enhanced parameters
-        return searchFn(args);
-      };
-      return $delegate;
-    }]);
-  }
+    /**
+     * @ngdoc interface
+     * @name inspireSearchConfiguration
+     * @namespace inspireSearchConfiguration
+     * @param {service} $provide - Register components with the $injector.
+     * @description
+     *     Configuration of inspireSearch
+     */
+    function inspireSearchConfiguration($provide) {
+        $provide.decorator('invenioSearchAPI', ['$delegate', function ($delegate) {
+            // Save the default function
+            var searchFn = $delegate.search;
+            $delegate.search = function (args) {
+                /*
+                 * Args Object look like:
+                 *
+                 *   {
+                 *      url: ....
+                 *      method: ....
+                 *      params: ....
+                 *   }
+                 *
+                 */
+                args['headers'] = {
+                    'Accept': 'application/vnd+inspire.brief+json'
+                };
+                // Call the original function with the enhanced parameters
+                return searchFn(args);
+            };
+            return $delegate;
+        }]);
+    }
 
-  // Inject the necessary angular services
-  inspireSearchConfiguration.$inject = ['$provide'];
+    // Inject the necessary angular services
+    inspireSearchConfiguration.$inject = ['$provide'];
 
-  // Setup configuration
-  angular.module('inspirehepSearch.configuration', [])
-    .config(inspireSearchConfiguration);
+    // Setup configuration
+    angular.module('inspirehepSearch.configuration', [])
+        .config(inspireSearchConfiguration);
 
-  // Setup everything
-  angular.module('inspirehepSearch', [
-    'invenioSearch',
-    'inspirehepFacetsShowMore',
-    'inspirehepSearch.filters',
-    'inspirehepSearch.configuration',
-  ]);
+    // Setup everything
+    angular.module('inspirehepSearch', [
+        'invenioSearch',
+        'inspirehepFacetsShowMore',
+        'inspirehepSearch.filters',
+        'inspirehepSearch.configuration'
+    ]);
 
 
 })(angular);
@@ -111,6 +111,7 @@
     'ngSanitize', // Allows displaying non-escaped-HTML in filters 
     'inspirehepSearch.filters.capitalize',
     'inspirehepSearch.filters.doi',
+    'inspirehepSearch.filters.date',
   ]);
 
 
@@ -133,7 +134,7 @@
 
     function calculateStep(key) {
       var resultsLeft = $scope.vm.invenioSearchResults.aggregations[key].buckets.length - $scope.facetResults;
-      if (  resultsLeft < $scope.step ) {
+      if ( resultsLeft < $scope.step ) {
         return resultsLeft;
       }
       else {
@@ -141,7 +142,7 @@
       }
     }
 
-    function resetShowMore(){
+    function resetShowMore() {
       $scope.facetResults = 10;
     }
 
@@ -216,22 +217,60 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function(angular) {
-  
-  function doiFilter() {
-    return function(input) {
-      if ( input === undefined ) {
-        return;
-      }
-      for (var i=0; i < input.length; i++) {
-        if (input[i].value) {
-          return '<a href="http://dx.doi.org/' + input[i].value + '" title="DOI" >' + input[i].value + '</a>';
-        }
-      }
-    };
-  }
+(function (angular) {
 
-  angular.module('inspirehepSearch.filters.doi', [])
-    .filter('doi', doiFilter);
+    function datePassedNowFilter() {
+        return function (token) {
+            var current_date = new Date();
+            var date = new Date(token);
+            return date >= current_date;
+        };
+    }
+
+    angular.module('inspirehepSearch.filters.date', [])
+        .filter('datePassedNow', datePassedNowFilter);
+
+})(angular);
+
+/*
+ * This file is part of INSPIRE.
+ * Copyright (C) 2016 CERN.
+ *
+ * INSPIRE is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * INSPIRE is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with INSPIRE; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ *
+ * In applying this license, CERN does not
+ * waive the privileges and immunities granted to it by virtue of its status
+ * as an Intergovernmental Organization or submit itself to any jurisdiction.
+ */
+
+(function (angular) {
+
+    function doiFilter() {
+        return function (input) {
+            if (input === undefined) {
+                return;
+            }
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].value) {
+                    return '<a href="http://dx.doi.org/' + input[i].value + '" title="DOI" >' + input[i].value + '</a>';
+                }
+            }
+        };
+    }
+
+    angular.module('inspirehepSearch.filters.doi', [])
+        .filter('doi', doiFilter);
 
 })(angular);

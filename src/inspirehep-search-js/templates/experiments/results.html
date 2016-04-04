@@ -1,0 +1,63 @@
+<div class="row" ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
+    <div class="col-md-12">
+        <div id="panel-default-brief" class="experiments panel panel-default">
+            <div class="panel-body">
+                <div class="row-fluid">
+                    <div class="col-md-12 ">
+                        <h4 class="custom-h">
+
+                            <div ng-switch on="record.metadata.deadline_date | datePassedNow">
+
+                            </div>
+
+                            <a class="title" ng-href="/experiments/{{ record.id }}">
+                                <span ng-if="record.metadata.name_variants" ng-bind="record.metadata.name_variants[0]">
+                                    {{ record.metadata.name_variants[0] }}
+                                </span>
+                                <span ng-if="!record.metadata.name_variants && record.metadata.title">
+                                {{ record.metadata.title[0].title }}
+                                </span>
+
+                                <span ng-if="!record.metadata.name_variants
+                                && !record.metadata.title && record.metadata.collaboration">
+                                {{ record.metadata.collaboration }}
+                                </span>
+                            </a>
+
+                            <span class="small-text" ng-if="record.metadata.name_variants && record.metadata.title[0]">
+                                {{ record.metadata.title[0].title }}
+                            </span>
+                        </h4>
+
+                        <p class="place" ng-if="record.metadata.affiliation">
+                            <i class="fa fa-map-marker"></i>
+                            Hosted at
+                            <a href="search?cc=experiments&q=&wwwlab={{record.metadata.affiliation[0] }}"
+                               ng-bind="record.metadata.affiliation[0]">
+                            </a>
+                        </p>
+
+                        <p class="description" ng-if="record.metadata.description"
+                           ng-bind="record.metadata.description[0]"></p>
+
+                        <div ng-if="record.metadata.field_code">
+                            <ul class="research-area">
+                                <li ng-repeat="record in record.metadata.field_code">
+                                    {{ record }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <p class="details">
+
+                            <a ng-if="record.metadata.urls" href="{{ record.metadata.urls[0] }}" target="_blank">Go to
+                                Web Page</a>
+                            </a>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
