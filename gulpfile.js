@@ -28,6 +28,7 @@ var karma = require('karma').server;
 var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
+var shell = require('gulp-shell');
 
 /**
  * File patterns
@@ -155,6 +156,19 @@ gulp.task('watch', function () {
   // Watch JavaScript files
   gulp.watch([sourceFiles, templates], ['test', 'build']);
 });
+
+
+/**
+ * Beautify tasks
+ */
+
+gulp.task('beautify', function () {
+  return gulp.src(sourceFiles, {read: false})
+    .pipe(shell([
+      'js-beautify <%= file.path %> -r'
+    ]));
+});
+
 
 /**
  * Default taks

@@ -21,11 +21,11 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function(angular) {
+(function (angular) {
 
   function capitalizeFilter() {
-    return function(token) {
-      if ( !token ) {
+    return function (token) {
+      if (!token) {
         return '';
       }
       return token.charAt(0).toUpperCase() + token.slice(1);
