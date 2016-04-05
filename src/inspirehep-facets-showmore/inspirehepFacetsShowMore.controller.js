@@ -1,4 +1,4 @@
-(function(angular) {
+(function (angular) {
 
   function FacetsShowMoreController($scope) {
 
@@ -16,10 +16,9 @@
 
     function calculateStep(key) {
       var resultsLeft = $scope.vm.invenioSearchResults.aggregations[key].buckets.length - $scope.facetResults;
-      if ( resultsLeft < $scope.step ) {
+      if (resultsLeft < $scope.step) {
         return resultsLeft;
-      }
-      else {
+      } else {
         return $scope.step;
       }
     }

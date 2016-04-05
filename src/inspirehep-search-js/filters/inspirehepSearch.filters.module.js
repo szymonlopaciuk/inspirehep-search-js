@@ -21,7 +21,7 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function(angular) {
+(function (angular) {
 
   // Setup module
   angular.module('inspirehepSearch.filters', [
@@ -30,6 +30,5 @@
     'inspirehepSearch.filters.doi',
     'inspirehepSearch.filters.date',
   ]);
-
 
 })(angular);

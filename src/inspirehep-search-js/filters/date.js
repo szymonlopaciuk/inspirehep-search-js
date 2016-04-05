@@ -23,15 +23,15 @@
 
 (function (angular) {
 
-    function datePassedNowFilter() {
-        return function (token) {
-            var current_date = new Date();
-            var date = new Date(token);
-            return date >= current_date;
-        };
-    }
+  function datePassedNowFilter() {
+    return function (token) {
+      var current_date = new Date();
+      var date = new Date(token);
+      return date >= current_date;
+    };
+  }
 
-    angular.module('inspirehepSearch.filters.date', [])
-        .filter('datePassedNow', datePassedNowFilter);
+  angular.module('inspirehepSearch.filters.date', [])
+    .filter('datePassedNow', datePassedNowFilter);
 
 })(angular);
