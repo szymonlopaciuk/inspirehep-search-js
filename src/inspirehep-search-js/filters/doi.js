@@ -21,22 +21,30 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function (angular) {
-
+(function(angular) {
+  
   function doiFilter() {
-    return function (input) {
-      if (input === undefined) {
+    return function(input) {
+      if ( input === undefined ) {
         return;
       }
-      for (var i = 0; i < input.length; i++) {
+      
+      var dois = [];
+      for (var i=0; i < input.length; i++) {
         if (input[i].value) {
-          return '<a href="http://dx.doi.org/' + input[i].value + '" title="DOI" >' + input[i].value + '</a>';
+          dois.push('<a href="http://dx.doi.org/' + input[i].value + '" title="DOI" >' + input[i].value + '</a>');
         }
+      }
+
+      if (dois.length !== 0) {
+        return 'DOI: ' + dois.join(', ');
+      } else {
+        return '';
       }
     };
   }
 
   angular.module('inspirehepSearch.filters.doi', [])
-    .filter('doi', doiFilter);
+        .filter('doi', doiFilter);
 
 })(angular);

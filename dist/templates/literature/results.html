@@ -1,4 +1,4 @@
-<div class="row" ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
+<div class="row" ng-repeat="record in vm.invenioSearchResults.hits.hits track by record.metadata.control_number">
   <div class="col-md-12">
     <div id="panel-default-brief" class="panel panel-default" >
       <div class="panel-body" >
@@ -12,34 +12,50 @@
               </div>
               <div class="col-md-11">
                 <h4 class="custom-h">
-                  <a class="title" ng-href="/literature/{{record.id}}">
-                    {{ record.metadata.titles[0].title }}
+                  <a class="title" ng-href="/literature/{{record.id}}" ng-bind-html='record.metadata.titles[0] | title'>
                   </a>
                 </h4>
                 <div class="brief-record-details">
                   <div class="authors">
-                    <!-- {{ render_record_authors(record, is_brief=true, show_affiliations=false) }} -->
-                    <span id="record-date">
-                      {{ record.display.date }}
-                    </span>
+                    <span ng-bind-html='record.metadata.collaboration | collaboration : record.metadata.corporate_author'></span>
+                    <span ng-bind-html='record.metadata.authors | corporateAuthor : record.metadata.corporate_author'></span>
+                    <authors-affiliation authors-template="/static/node_modules/inspirehep-search-js/dist/templates/authors/authors.html" authors="{{record.metadata.authors}}" collaboration="{{record.metadata.collaboration}}" number-of-authors={{record.display.number_of_authors}} control-number="{{record.metadata.control_number}}"></authors-affiliation> 
+                    <span id="record-date" ng-bind-html="record.display.date | date : record.metadata.authors : record.metadata.collaboration : record.metadata.corporate_author"></span>
                   </div>
                   <div class="row">
-                    <div class="col-md-12 ">
-                      Journal info goes here
+                    <div ng-if="record.display.publication_info_line.pub_info && record.metadata.dois"  class="col-md-12">
+                      <div ng-if="record.display.publication_info_line.pub_info.length == 1 && record.metadata.dois.length == 1">
+                        <div ng-bind-html='record.metadata.dois | publicationInfoDoi : record.display.publication_info_line'></div>
+                      </div>
+                      <div ng-if="record.display.publication_info_line.pub_info.length !== 1 || record.metadata.dois.length !== 1">
+                        <div ng-bind-html='record.display.publication_info_line | publicationInfo' ></div>
+                        <div ng-bind-html='record.metadata.dois | doi' ></div>
+                      </div>  
                     </div>
-                    <div ng-bind-html='record.metadata.dois | doi' class="col-md-12 ">
+                    <div ng-if="record.display.publication_info_line && !(record.display.publication_info_line.pub_info && record.metadata.dois)" class="col-md-12">
+                      <div ng-bind-html='record.display.publication_info_line | publicationInfo' ></div>
                     </div>
-                    <div>
-                      Arxiv info
+                    <div ng-if="record.metadata.dois && !(record.display.publication_info_line && record.display.publication_info_line.pub_info)" class="col-md-12 ">
+                      <div ng-bind-html='record.metadata.dois | doi'></div>
+                    </div>
+                    <div ng-bind-html='record.metadata.arxiv_eprints | arxivInfo'></div>
+                    <div ng-if="record.metadata.report_numbers && !record.display.publication_info_line.pub_info">
+                      <div ng-bind-html='record.metadata.report_numbers | reportNumber'></div>
                     </div>
                   </div>
-                  Abstract here.
+                  <div ng-if='record.metadata.abstracts.length > 0' class="abstract">
+                    <a href="" ng-click='showAbstract=!showAbstract'>
+                      {{ showAbstract ? 'Hide abstract' : 'Show abstract' }}
+                    </a>
+                    <div  ng-show='showAbstract' ng-bind-html='record.metadata.abstracts | abstract' class="col-md-12">
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-3 right-column" >
-            <a type="button" class="btn custom-btn btn-warning link-to-pdf no-external-icon" href="http://arxiv.org/pdf/123 }}">PDF</a>
+          <div class="col-md-3 right-column" >          
+            <a ng-if="record.metadata.arxiv_eprints|arxiv" type="button" class="btn custom-btn btn-warning link-to-pdf no-external-icon" href="http://arxiv.org/pdf/{{ record.metadata.arxiv_eprints | arxiv }}" >PDF</a>
             <span class="dropdown">
                 <inspire-cite-modal button-template="/static/node_modules/inspirehep-js/dist/templates/citemodal/templates/button.html" body-template="/static/node_modules/inspirehep-js/dist/templates/citemodal/templates/modalbody.html" recid={{record.id}}>
                 </inspire-cite-modal>

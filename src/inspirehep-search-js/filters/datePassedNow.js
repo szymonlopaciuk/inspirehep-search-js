@@ -21,33 +21,17 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-'use strict';
+(function (angular) {
 
-describe('Unit: testing dependencies', function() {
+    function datePassedNowFilter() {
+        return function (token) {
+            var current_date = new Date();
+            var date = new Date(token);
+            return date >= current_date;
+        };
+    }
 
-  var module;
-  var dependencies;
-  dependencies = [];
+    angular.module('inspirehepSearch.filters.datePassedNow', [])
+        .filter('datePassedNow', datePassedNowFilter);
 
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
-
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehepSearch');
-    dependencies = module.requires;
-  });
-
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load configuration module', function() {
-    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
-});
+})(angular);

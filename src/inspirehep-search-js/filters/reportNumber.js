@@ -15,25 +15,34 @@
  * You should have received a copy of the GNU General Public License
  * along with INSPIRE; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
- *
- * In applying this license, CERN does not
- * waive the privileges and immunities granted to it by virtue of its status
- * as an Intergovernmental Organization or submit itself to any jurisdiction.
- */
+* In applying this license, CERN does not
+* waive the privileges and immunities granted to it by virtue of its status
+* as an Intergovernmental Organization or submit itself to any jurisdiction.
+*/
 
 (function(angular) {
   
-  function dateFilter() {
-    return function(date, authors, collaboration, corporate_author) {
-      if ( authors === undefined &&  collaboration === undefined && corporate_author === undefined) {
-        return date;
+  function reportNumberFilter() {
+    return function(input) {
+      if (input === undefined) {
+        return;
+      }
+      var reportNumbers = [];
+      for (var i=0; i < input.length; i++) {
+        if (input[i].value) {
+          reportNumbers.push(' ' + input[i].value);
+        }
+      } 
+
+      if (reportNumbers.length !== 0) {
+        return 'Report number: ' + reportNumbers;
       } else {
-        return '- ' + date;
+        return '';
       }
     };
   }
-
-  angular.module('inspirehepSearch.filters.date', [])
-    .filter('date', dateFilter);
+  
+  angular.module('inspirehepSearch.filters.reportNumber', [])
+    .filter('reportNumber', reportNumberFilter);
 
 })(angular);

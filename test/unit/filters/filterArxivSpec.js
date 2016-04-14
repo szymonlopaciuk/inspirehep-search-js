@@ -23,31 +23,22 @@
 
 'use strict';
 
-describe('Unit: testing dependencies', function() {
+describe('Test arxiv filter', function() {
+  beforeEach(angular.mock.module('inspirehepSearch.filters'));
+  beforeEach(angular.mock.module('ngSanitize'));
 
-  var module;
-  var dependencies;
-  dependencies = [];
+  it('should return empty when no input passed',
+    inject(function(arxivFilter) {
+      var arxiv = undefined;
+      expect(arxivFilter(arxiv)).to.be.equal(undefined);
+    })
+  );
 
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
+  it('should return the arxiv_eprint value',
+    inject(function(arxivFilter) {
+      var arxiv = [{categories:['gr-qc'],value:'arXiv:1301.6984'}];
+      expect(arxivFilter(arxiv)).to.be.equal('arXiv:1301.6984');
+    })
+  );
 
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehepSearch');
-    dependencies = module.requires;
-  });
-
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load configuration module', function() {
-    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
 });

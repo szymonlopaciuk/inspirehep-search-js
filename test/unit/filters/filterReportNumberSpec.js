@@ -23,35 +23,28 @@
 
 'use strict';
 
-describe('Test doi filter', function() {
+describe('Test report number filter', function() {
   beforeEach(angular.mock.module('inspirehepSearch.filters'));
   beforeEach(angular.mock.module('ngSanitize'));
 
-  it('should return a link to the only value in Array',
-    inject(function(doiFilter) {
-      var doi = [{value: '10.1007/JHEP09(2011)109'}];
-      expect(doiFilter(doi)).to.be.equal('DOI: <a href="http://dx.doi.org/10.1007/JHEP09(2011)109" title="DOI" >10.1007/JHEP09(2011)109</a>');
-    })
-  );
-
   it('should return empty when no input passed',
-    inject(function(doiFilter) {
-      var doi = undefined;
-      expect(doiFilter(doi)).to.be.equal(undefined);
+    inject(function(reportNumberFilter) {
+      var reportNumber = undefined;
+      expect(reportNumberFilter(reportNumber)).to.be.equal(undefined);
     })
   );
 
-  it('should return multiple dois links separated by comma when multiple values in Array',
-    inject(function(doiFilter) {
-      var doi = [{value:'10.1007/JHEP01(2014)163'},{source:'bibmatch', value:'10.1007/JHEP01(2015)014'}];
-      expect(doiFilter(doi)).to.be.equal('DOI: <a href="http://dx.doi.org/10.1007/JHEP01(2014)163" title="DOI" >10.1007/JHEP01(2014)163</a>, <a href="http://dx.doi.org/10.1007/JHEP01(2015)014" title="DOI" >10.1007/JHEP01(2015)014</a>');
+  it('should return multiple report numbers separated by comma when multiple values are passed',
+    inject(function(reportNumberFilter) {
+      var reportNumber = [{value:"ATLAS-CONF-2014-008"},{value:"CDF-NOTE-11071"},{value:"CMS-PAS-TOP-13-014"},{value:"D0-NOTE-6416"},{value:"FERMILAB-TM-2582-E"}];
+      expect(reportNumberFilter(reportNumber)).to.be.equal('Report number:  ATLAS-CONF-2014-008, CDF-NOTE-11071, CMS-PAS-TOP-13-014, D0-NOTE-6416, FERMILAB-TM-2582-E');
     })
   );
 
-  it('should return empty when no value is available',
-    inject(function(doiFilter) {
-      var doi = [{source:'bibmatch'}];
-      expect(doiFilter(doi)).to.be.equal('');
+  it('should return empty when no value is passed',
+    inject(function(reportNumberFilter) {
+      var reportNumber = [{value:""}];
+      expect(reportNumberFilter(reportNumber)).to.be.equal('');
     })
   );
 });

@@ -23,35 +23,35 @@
 
 'use strict';
 
-describe('Test doi filter', function() {
+describe('Test title filter', function() {
   beforeEach(angular.mock.module('inspirehepSearch.filters'));
   beforeEach(angular.mock.module('ngSanitize'));
 
-  it('should return a link to the only value in Array',
-    inject(function(doiFilter) {
-      var doi = [{value: '10.1007/JHEP09(2011)109'}];
-      expect(doiFilter(doi)).to.be.equal('DOI: <a href="http://dx.doi.org/10.1007/JHEP09(2011)109" title="DOI" >10.1007/JHEP09(2011)109</a>');
-    })
-  );
-
   it('should return empty when no input passed',
-    inject(function(doiFilter) {
-      var doi = undefined;
-      expect(doiFilter(doi)).to.be.equal(undefined);
+    inject(function(titleFilter) {
+      var title = undefined;
+      expect(titleFilter(title)).to.be.equal(undefined);
     })
   );
 
-  it('should return multiple dois links separated by comma when multiple values in Array',
-    inject(function(doiFilter) {
-      var doi = [{value:'10.1007/JHEP01(2014)163'},{source:'bibmatch', value:'10.1007/JHEP01(2015)014'}];
-      expect(doiFilter(doi)).to.be.equal('DOI: <a href="http://dx.doi.org/10.1007/JHEP01(2014)163" title="DOI" >10.1007/JHEP01(2014)163</a>, <a href="http://dx.doi.org/10.1007/JHEP01(2015)014" title="DOI" >10.1007/JHEP01(2015)014</a>');
+  it('should return empty when title is undefined',
+    inject(function(titleFilter) {
+      var title = {source:"arXiv"};
+      expect(titleFilter(title)).to.be.equal('');
     })
   );
 
-  it('should return empty when no value is available',
-    inject(function(doiFilter) {
-      var doi = [{source:'bibmatch'}];
-      expect(doiFilter(doi)).to.be.equal('');
+  it('should return the title when no subtitle',
+    inject(function(titleFilter) {
+      var title = {source:"arXiv",title:"Advanced LIGO"};
+      expect(titleFilter(title)).to.be.equal("Advanced LIGO");
+    })
+  );
+
+  it('should return the title with subtitle when title and subtitle passed',
+    inject(function(titleFilter) {
+      var title = {subtitle:"Solutions to Problems",title:"Advanced Modern Physics"};
+      expect(titleFilter(title)).to.be.equal("Advanced Modern Physics : Solutions to Problems");
     })
   );
 });

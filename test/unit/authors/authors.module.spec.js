@@ -35,19 +35,21 @@ describe('Unit: testing dependencies', function() {
 
   beforeEach(function() {
     // Get module
-    module = angular.module('inspirehepSearch');
+    module = angular.module('authors');
     dependencies = module.requires;
   });
 
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load configuration module', function() {
-    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
+  it('should load ui bootstrap module', function() {
     expect(hasModule('ui.bootstrap')).to.be.ok;
   });
+
+  it('should load controllers module', function() {
+    expect(hasModule('authors.controllers')).to.be.ok;
+  });
+
+  it('should load directives module', function() {
+    expect(hasModule('authors.directives')).to.be.ok;
+  });
+
+
 });

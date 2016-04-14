@@ -15,39 +15,29 @@
  * You should have received a copy of the GNU General Public License
  * along with INSPIRE; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
- *
  * In applying this license, CERN does not
  * waive the privileges and immunities granted to it by virtue of its status
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
- */
+*/
 
-'use strict';
+(function(angular) {
+  
+  function arxivFilter() {
+    return function(input) {
+      if ( input === undefined ) {
+        return;
+      }
 
-describe('Unit: testing dependencies', function() {
+      var eprint = '';
+      for (var i=0; i < input.length; i++) {
+        eprint = input[i].value;
+        break;
+      }
 
-  var module;
-  var dependencies;
-  dependencies = [];
+      return eprint;
+    };
+  }
+  angular.module('inspirehepSearch.filters.arxiv', [])
+    .filter('arxiv', arxivFilter);
 
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
-
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehepSearch');
-    dependencies = module.requires;
-  });
-
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load configuration module', function() {
-    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
-});
+})(angular);

@@ -21,33 +21,20 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-'use strict';
+(function(angular) {
+  
+  function corporateAuthorFilter() {
+    return function(input, corporate_author) {
+      if ( input === undefined ) {
+        if (corporate_author) {
+          return corporate_author[0];
+        } 
+        return;
+      }
+    };
+  }
 
-describe('Unit: testing dependencies', function() {
+  angular.module('inspirehepSearch.filters.corporateAuthor', [])
+    .filter('corporateAuthor', corporateAuthorFilter);
 
-  var module;
-  var dependencies;
-  dependencies = [];
-
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
-
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehepSearch');
-    dependencies = module.requires;
-  });
-
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load configuration module', function() {
-    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
-});
+})(angular);

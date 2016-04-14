@@ -62,14 +62,16 @@
 
   // Setup configuration
   angular.module('inspirehepSearch.configuration', [])
-    .config(inspireSearchConfiguration);
-
-  // Setup everything
+      .config(inspireSearchConfiguration);
+    
+    // Setup everything
   angular.module('inspirehepSearch', [
     'invenioSearch',
     'inspirehepFacetsShowMore',
     'inspirehepSearch.filters',
-    'inspirehepSearch.configuration'
+    'inspirehepSearch.configuration',
+    'ui.bootstrap',
+    'authors'
   ]);
 
 })(angular);
