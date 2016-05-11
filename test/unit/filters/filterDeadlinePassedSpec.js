@@ -29,8 +29,16 @@ describe('Test Deadline Passed filter', function () {
 
     it('should return true if the date is in the future',
         inject(function (datePassedNowFilter) {
-            var date = '2016-04-15';
-            console.log(datePassedNowFilter(date));
+            // First generate a date in the future
+            var someDate = new Date();
+            var numberOfDaysToAdd = 5;
+
+            someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+
+            var dd = someDate.getDate(),
+                mm = ("0" + (someDate.getMonth() + 1)).slice(-2),
+                y = someDate.getFullYear();
+            var date = y + '-' + mm + '-' + dd;
             expect(datePassedNowFilter(date)).to.be.equal(true);
         })
     );

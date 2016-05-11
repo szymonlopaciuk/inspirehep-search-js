@@ -51,6 +51,7 @@ describe('Testing invenioSearchAPI decorator', function() {
     ctrl = $controller('invenioSearchController', {
       $scope : scope,
     });
+
   }));
 
   it('should make a request with custom headers', function() {
@@ -64,7 +65,6 @@ describe('Testing invenioSearchAPI decorator', function() {
     };
 
     ctrl.invenioDoSearch();
-    $httpBackend.flush();
   });
 
 });
