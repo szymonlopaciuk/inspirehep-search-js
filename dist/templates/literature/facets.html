@@ -7,7 +7,7 @@
           <label>
             <input class="include-facet" type="checkbox" ng-checked="handler[key].indexOf(item.key) > -1" ng-click="handleClick(key, item.key)" />
             <span ng-if="key != 'earliest_date'" class="facet-title-truncate">{{ item.key | capitalize }}</span>
-            <span ng-if="key == 'earliest_date'" class="facet-title-truncate">{{ item.key | date:'yyyy' }}</span>
+            <span ng-if="key == 'earliest_date'" class="facet-title-truncate">{{ item.key_as_string }}</span>
             <span class="facet-label label label-default pull-right">{{ item.doc_count }}</span>
           </label>
         </li>
