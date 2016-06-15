@@ -1,33 +1,32 @@
-<div class="row" ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
-    <div class="col-md-12">
-        <div id="panel-default-brief" class="institutions panel panel-default">
-            <div class="panel-body">
-                <div class="row-fluid">
-                    <div class="col-md-12 ">
-                        <h4 class="custom-h">
-                            <a class="title" ng-href="/institutions/{{ record.id }}">
-                                {{ record.metadata.institution[0] }}
-                            </a>
+<article class="panel panel-default search-result record-brief-institutions" ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
+  <div class="panel-body">
+    <div class="row-fluid">
+      <div class="col-md-12 ">
+        <h2 class="record-brief-title">
+          <a ng-href="/institutions/{{ record.id }}">
+            {{ record.metadata.institution[0] }}
+          </a>
 
-                            <span class="department" ng-if="record.metadata.department"
-                                  ng-bind="record.metadata.department[0]"></span>
-                        </h4>
-
-
-                        <div class="details">
-                            <span ng-if="record.metadata.address" class="address">
-                                <i class="fa fa-map-marker"></i>
-                                <span class="city" ng-bind="record.metadata.address[0].city"></span>,
-                                <span class="country" ng-bind="record.metadata.address[0].country"></span>
-                            </span>
-
-                            <span ng-if="record.metadata.urls" class="url">
-                                <a href="{{ record.metadata.urls[0] }}" target="_blank">Go to Web Page</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </h2>
+        <div class="record-brief-subtitle">
+          <span class="department" ng-if="record.metadata.department"
+          ng-bind="record.metadata.department[0]"></span>
         </div>
+
+        <div class="record-brief-details">
+          <span ng-if="record.metadata.address" class="address">
+            <i class="fa fa-map-marker"></i>
+            <span ng-if="record.metadata.address[0].original_address">
+              {{record.metadata.address[0].original_address.join(', ')}}
+            </span>
+            <span ng-bind="record.metadata.address[0].country"></span>
+          </span>
+
+          <div ng-if="record.metadata.urls[0]" class="record-brief-url">
+            <a ng-href="{{ record.metadata.urls[0].value }}">Go to Web Page</a>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

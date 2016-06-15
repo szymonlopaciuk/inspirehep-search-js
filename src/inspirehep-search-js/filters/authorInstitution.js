@@ -15,31 +15,37 @@
  * You should have received a copy of the GNU General Public License
  * along with INSPIRE; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
- *
  * In applying this license, CERN does not
  * waive the privileges and immunities granted to it by virtue of its status
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
- */
+*/
 
-(function (angular) {
+(function(angular) {
 
-  // Setup module
-  angular.module('inspirehepSearch.filters', [
-    'ngSanitize', // Allows displaying non-escaped-HTML in filters
-    'inspirehepSearch.filters.abstract',
-    'inspirehepSearch.filters.authorInstitution',
-    'inspirehepSearch.filters.arxiv',
-    'inspirehepSearch.filters.arxivInfo',
-    'inspirehepSearch.filters.capitalize',
-    'inspirehepSearch.filters.collaboration',
-    'inspirehepSearch.filters.corporateAuthor',
-    'inspirehepSearch.filters.date',
-    'inspirehepSearch.filters.datePassedNow',
-    'inspirehepSearch.filters.doi',
-    'inspirehepSearch.filters.publicationInfo',
-    'inspirehepSearch.filters.publicationInfoDoi',
-    'inspirehepSearch.filters.reportNumber',
-    'inspirehepSearch.filters.title'
-  ]);
+  function authorInstitutionFilter() {
+    return function(input) {
+      if ( input === undefined ) {
+        return;
+      }
+
+      var first_institution  = '';
+      for ( var i=0; i<input.length; i++ ) {
+        if ( typeof input[i].institution !== 'undefined' && typeof input[i].institution.name !== 'undefined') {
+          if ( typeof input[i].status !== 'undefined' && input[i].status.toLowerCase() === 'current' ) {
+            return '(' + input[i].institution.name + ')';
+          }
+          else if ( !first_institution ) {
+            first_institution = input[i].institution.name;
+          }
+        }
+      }
+      if ( first_institution ) {
+          return '(' + first_institution + ')';
+      }
+    };
+  }
+
+  angular.module('inspirehepSearch.filters.authorInstitution', [])
+    .filter('authorInstitution', authorInstitutionFilter);
 
 })(angular);

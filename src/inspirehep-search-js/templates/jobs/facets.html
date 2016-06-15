@@ -1,4 +1,4 @@
-<div ng-init="order={'continent': 'Continent', 'rank': 'Rank', 'research_area': 'Subject'}">
+<div ng-init="order={'continent': 'Continent', 'ranks': 'Rank', 'field_categories': 'Subject'}">
   <div ng-if="vm.invenioSearchResults.aggregations[key].buckets.length" ng-repeat="(key, title) in order">
     <h4>Filter by {{ title }}</h4>
     <div class="facet-container">

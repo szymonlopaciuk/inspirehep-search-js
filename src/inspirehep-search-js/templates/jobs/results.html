@@ -1,62 +1,53 @@
-<div class="row" ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
-    <div class="col-md-12">
-        <div id="panel-default-brief" class="panel jobs panel-default">
-            <div class="panel-body">
-                <div class="row-fluid">
-                    <div class="col-md-10 left-column">
-                        <div class="row-fluid">
-                            <div class="col-md-12">
-                                <h4 class="custom-h">
-                                    <a class="title" ng-href="/jobs/{{ record.id }}">
-                                        {{ record.metadata.position }}
-                                    </a>
-                                </h4>
+<article class="panel panel-default search-result record-brief-jobs" ng-repeat="record in vm.invenioSearchResults.hits.hits track by $index">
+  <div class="panel-body">
+    <div class="row-fluid">
+      <div class="col-md-10 left-column">
+        <h2 class="record-brief-title">
+          <a ng-href="/jobs/{{ record.id }}">
+            {{ record.metadata.position }}
+          </a>
+        </h2>
+        <div class="record-brief-subtitle">
+          <span ng-if="record.metadata.ranks[0]" ng-class="record.metadata.ranks[0]"><i
+          class="fa fa-briefcase"></i> {{ record.metadata.ranks[0] }}</span>
 
-
-                                <p class="details">
-                                    <span ng-if="record.metadata.rank[0]"
-                                          ng-class="record.metadata.rank[0]"><i
-                                            class="fa fa-briefcase"></i> {{ record.metadata.rank[0] }}</span>
-
-                                    <span class="institution">
-                                    <i class="fa fa-university"></i>
-                                    {{ record.metadata.institution[0].name }}
-                                        </span>
-                                </p>
-
-                                <ul class="research-area">
-                                    <li ng-repeat="research_area in record.metadata.research_area">
-                                        {{ research_area }}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 text-center">
-
-                        <div ng-switch on="record.metadata.deadline_date | datePassedNow">
-
-                            <div ng-switch-when="true">
-                                <p class="deadline-header open"><i class="fa fa-calendar-check-o"></i> Open</p>
-
-                                 <span class="deadline-date open">
-                            Closes on <br/> {{ record.metadata.deadline_date }}
-                                </span>
-                            </div>
-
-                            <div ng-switch-when="false">
-                                <p class="deadline-header closed"><i class="fa fa-calendar-times-o"></i> Closed</p>
-
-                                 <span class="deadline-date">
-                                    Closed<br/> {{ record.metadata.deadline_date }}
-                                </span>
-
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <span>
+            <i class="fa fa-university"></i>
+            {{ record.metadata.institution[0].name }}
+          </span>
         </div>
+
+        <div class="record-brief-details">
+          <ul class="research-area">
+            <li ng-repeat="research_area in record.metadata.field_categories">
+              {{ research_area.term }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2 text-center right-column">
+
+        <div ng-switch on="record.metadata.deadline_date | datePassedNow">
+
+          <div ng-switch-when="true">
+            <div class="deadline-header open"><i class="fa fa-calendar-check-o"></i> Open</div>
+
+            <span class="deadline-date open">
+              Closes on <br/> {{ record.metadata.deadline_date }}
+            </span>
+          </div>
+
+          <div ng-switch-when="false">
+            <div class="deadline-header closed"><i class="fa fa-calendar-times-o"></i> Closed</div>
+
+            <span class="deadline-date">
+              Closed on <br/> {{ record.metadata.deadline_date }}
+            </span>
+
+          </div>
+
+        </div>
+      </div>
     </div>
+  </div>
+</article>
