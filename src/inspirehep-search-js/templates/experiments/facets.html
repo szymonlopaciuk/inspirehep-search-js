@@ -1,4 +1,4 @@
-<div ng-init="order={'field_code': 'Subject', 'wwwlab': 'Name', 'accelerator': 'Accelerator'}">
+<div ng-init="order={'affiliation': 'Affiliation', 'collaboration': 'Collaboration'}">
   <div ng-if="vm.invenioSearchResults.aggregations[key].buckets.length" ng-repeat="(key, title) in order">
     <h4>Filter by {{ title }}</h4>
     <div class="facet-container">
@@ -6,7 +6,7 @@
         <li class="checkbox checkbox-facets" ng-repeat="item in vm.invenioSearchResults.aggregations[key].buckets | limitTo: facetResults">
           <label>
             <input class="include-facet" type="checkbox" ng-checked="handler[key].indexOf(item.key) > -1" ng-click="handleClick(key, item.key)" />
-            <span class="facet-title-truncate">{{ item.key | capitalize }}</span>
+            <span class="facet-title-truncate">{{ item.key }}</span>
             <span class="facet-label label label-default pull-right">{{ item.doc_count }}</span>
           </label>
         </li>
