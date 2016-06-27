@@ -46,7 +46,7 @@
         </inspire-export-modal>
         <div class="citations-references">
           <span ng-if="record.metadata.citation_count">
-            <i class="fa fa-quote-left"></i><a href="/search?p=refersto:{{record.id}}"> {{record.metadata.citation_count}} Citations </a><br>
+            <i class="fa fa-quote-left"></i><a href="/search?q=refersto:{{record.id}}"> {{record.metadata.citation_count}} Citations </a><br>
           </span>
           <span ng-if="record.display.number_of_references">
             <i class="fa fa-link"></i><a href="/record/{{record.id}}#references" target="_blank">  {{record.display.number_of_references}} References</a>
