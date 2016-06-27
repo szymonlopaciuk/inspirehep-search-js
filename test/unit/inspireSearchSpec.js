@@ -43,10 +43,6 @@ describe('Unit: testing dependencies', function() {
     expect(hasModule('inspirehepSearch.filters')).to.be.ok;
   });
 
-  it('should load configuration module', function() {
-    expect(hasModule('inspirehepSearch.configuration')).to.be.ok;
-  });
-
   it('should load angular-ui module', function() {
     expect(hasModule('ui.bootstrap')).to.be.ok;
   });
