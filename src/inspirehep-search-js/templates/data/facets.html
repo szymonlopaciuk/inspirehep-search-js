@@ -13,7 +13,7 @@
                           class="facet-title-truncate">{{ facet_item.key | capitalize }}</span>
                     <span ng-if="facet.type == 'date'"
                           class="facet-title-truncate">{{ facet_item.key}}</span>
-                    <span class="facet-label label label-default pull-right">{{ facet_item.doc_count }}</span>
+                          <span class="facet-label label"><span class="facet-count pull-right">{{ facet_item.doc_count }}</span></span>
                 </label>
             </li>
             <div ng-show="facet.vals.length > facetResults">

@@ -7,7 +7,7 @@
           <label>
             <input class="include-facet" type="checkbox" ng-checked="handler[key].indexOf(item.key) > -1" ng-click="handleClick(key, item.key)" />
             <span class="facet-title-truncate">{{ item.key | capitalize }}</span>
-            <span class="facet-label label label-default pull-right">{{ item.doc_count }}</span>
+            <span class="facet-label label"><span class="facet-count pull-right">{{ item.doc_count }}</span></span>
           </label>
         </li>
         <div ng-show="vm.invenioSearchResults.aggregations[key].buckets.length > facetResults">
