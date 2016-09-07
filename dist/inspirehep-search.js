@@ -92,6 +92,8 @@
     'inspirehepSearch.filters.doi',
     'inspirehepSearch.filters.publicationInfo',
     'inspirehepSearch.filters.publicationInfoDoi',
+    'inspirehepSearch.filters.conferenceFormat',
+    'inspirehepSearch.filters.journalFormat',
     'inspirehepSearch.filters.reportNumber',
     'inspirehepSearch.filters.title'
   ]);
@@ -582,6 +584,85 @@
  */
 
 (function(angular) {
+
+  function conferenceFormatFilter() {
+    return function(input, with_pub_info) {
+      if (input === undefined) {
+        return;
+      }
+
+      var output = '';
+
+      if (input['conference_recid'] && input['parent_recid']) {
+        if ( with_pub_info ) {
+          output += ' (<a href="/record/' + input['parent_recid'] +
+                    '">Proceedings</a> of <a href="/record/' +
+                    input['conference_recid'] + '">' +
+                    input['conference_title'] + '</a>)';
+        }
+        else {
+          output += 'Published in <a href="/record/' + input['parent_recid'] +
+                    '">proceedings</a> of <a href="/record/' +
+                    input['conference_recid'] + '">' +
+                    input['conference_title'] + '</a>';
+          if (input['page_start'] && input['page_end']) {
+            output += ', pages ' + input['page_start'] + '-' + input['page_end'];
+          }
+        }
+      }
+
+      else if (input['conference_recid'] && !input['parent_recid']) {
+        if ( with_pub_info ) {
+          output += '<br>';
+        }
+        output += 'Contribution to <a href="/record/' + input['conference_recid'] +
+                  '">' + input['conference_title'] + '</a>';
+      }
+
+      else if (!input['conference_recid'] && input['parent_recid']) {
+        if ( with_pub_info ) {
+           output += ' (<a href="/record/' + input['parent_recid'] +
+                     '">Proceedings</a> of ' + input['parent_title'] + ')';
+        }
+        else {
+          output += 'Published in <a href="/record/' + input['parent_recid'] +
+                    '">proceedings</a> of ' + input['parent_title'];
+        }
+      }
+
+      return output;
+    };
+  }
+
+  angular.module('inspirehepSearch.filters.conferenceFormat', [])
+    .filter('conferenceFormat', conferenceFormatFilter);
+
+})(angular);
+
+/*
+ * This file is part of INSPIRE.
+ * Copyright (C) 2016 CERN.
+ *
+ * INSPIRE is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * INSPIRE is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with INSPIRE; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ *
+ * In applying this license, CERN does not
+ * waive the privileges and immunities granted to it by virtue of its status
+ * as an Intergovernmental Organization or submit itself to any jurisdiction.
+ */
+
+(function(angular) {
   
   function corporateAuthorFilter() {
     return function(input, corporate_author) {
@@ -749,23 +830,113 @@
  */
 
 (function(angular) {
-  
-  function publicationInfoFilter() {
+
+  function journalFormatFilter() {
     return function(input) {
       if (input === undefined) {
         return;
       }
 
-      var pub_info = '';
-      if (input['pub_info']) {
-        pub_info = 'Published in ' + input['pub_info'].join(' and ');
-        
+      var output = '';
+
+      if (input['journal_title']) {
+        output += '<i>' + input['journal_title'] + '</i> ';
+
+        if (input['journal_volume']) {
+          output += input['journal_volume'];
+        }
+        if (input['year']) {
+          output += ' ' + '(' + input['year'] + ')';
+        }
+        if (input['journal_issue']) {
+          output += ' ' + input['journal_issue'] + ',';
+        }
+        if (input['page_start'] && input['page_end']) {
+          output += ' ' + input['page_start'] + '-' + input['page_end'];
+        }
+        else if (input['page_start']) {
+          output += ' ' + input['page_start'];
+        }
+        else if (input['artid']) {
+          output += ' ' + input['artid'];
+        }
       }
-      if (input['conf_info']) {
-        pub_info += ' ' + input['conf_info'];
+      else if (input['pubinfo_freetext']) {
+        output += input['pubinfo_freetext'];
       }
 
-      return pub_info;
+      return output;
+    };
+  }
+
+  angular.module('inspirehepSearch.filters.journalFormat', [])
+    .filter('journalFormat', journalFormatFilter);
+
+})(angular);
+
+/*
+ * This file is part of INSPIRE.
+ * Copyright (C) 2016 CERN.
+ *
+ * INSPIRE is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * INSPIRE is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with INSPIRE; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ *
+ * In applying this license, CERN does not
+ * waive the privileges and immunities granted to it by virtue of its status
+ * as an Intergovernmental Organization or submit itself to any jurisdiction.
+ */
+
+(function(angular) {
+
+  function publicationInfoFilter(conferenceFormatFilter, journalFormatFilter) {
+    return function(input, conference_info) {
+      if (input === undefined) {
+        return;
+      }
+
+      var pub_info = '';
+      var formatted_journals = [];
+      var i, len;
+      for (i = 0, len = input.length; i < len; i++) {
+        if (input[i]['journal_title']) {
+          formatted_journals.push(journalFormatFilter(input[i]));
+        }
+      }
+
+      if (formatted_journals) {
+          pub_info = formatted_journals.join(' and ');
+      }
+
+      var formatted_conference = '';
+      if (conference_info) {
+        for (i = 0, len = conference_info.length; i < len; i++) {
+          formatted_conference = conferenceFormatFilter(
+            conference_info[i],
+            formatted_journals.length
+          );
+          if (formatted_conference) {
+              pub_info += ' ' + formatted_conference;
+          }
+        }
+      }
+
+      if (pub_info && formatted_journals.length) {
+        return 'Published in ' + pub_info;
+      }
+      else {
+        return pub_info;
+      }
     };
   }
 
@@ -798,21 +969,29 @@
  */
 
 (function(angular) {
-  
-  function publicationInfoDoiFilter() {
-    return function(input, pub_info) {
+
+  function publicationInfoDoiFilter(conferenceFormatFilter, journalFormatFilter) {
+    return function(input, pub_info, conference_info) {
       if (input === undefined) {
         return;
       }
 
       var pub_info_and_doi = 'Published in ';
       pub_info_and_doi += '<a href="http://dx.doi.org/' + input[0].value + '" title="DOI">'  +
-          '<span class="text-left">' + pub_info['pub_info'][0] + '</span>' + '</a>';
+          '<span class="text-left">' + journalFormatFilter(pub_info[0]) + '</span>' + '</a>';
 
-      if (pub_info['conf_info']) {
-        pub_info_and_doi += ' ' + pub_info['conf_info'];
+      if (conference_info) {
+        var formatted_conference = '';
+        var i, len;
+        for (i = 0, len = conference_info.length; i < len; i++) {
+          formatted_conference = conferenceFormatFilter(conference_info[i], true);
+          if (formatted_conference) {
+            pub_info_and_doi += formatted_conference;
+            break;
+          }
+        }
       }
-      
+
       return pub_info_and_doi;
     };
   }

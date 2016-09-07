@@ -23,63 +23,79 @@
 
 'use strict';
 
-describe('Test publication info filter', function() {
+describe('Test conference format filter', function() {
   beforeEach(angular.mock.module('inspirehepSearch.filters'));
   beforeEach(angular.mock.module('ngSanitize'));
 
   it('should return empty when no input passed',
-    inject(function(publicationInfoFilter) {
+    inject(function(journalFormatFilter) {
       var publicationInfo = undefined;
-      expect(publicationInfoFilter(publicationInfo)).to.be.equal(undefined);
+      expect(journalFormatFilter(publicationInfo)).to.be.equal(undefined);
     })
   );
 
-  it('should return multiple journals separated by and when multiple values are passed',
-    inject(function(publicationInfoFilter) {
+  it('should return publication info line',
+    inject(function(journalFormatFilter) {
       var display = {
           "publication_info": [
             {
               "artid": "055009",
-              "journal_issue": "",
+              "journal_issue": "12",
               "journal_title": "Int.J.Theor.Phys.",
               "journal_volume": "38",
               "page_end": "1133",
               "page_start": "1113",
               "pubinfo_freetext": "",
               "year": "1999"
-            },
-            {
-              "artid": "055009",
-              "journal_issue": "",
-              "journal_title": "Adv.Theor.Math.Phys.",
-              "journal_volume": "2",
-              "page_end": "252",
-              "page_start": "231",
-              "pubinfo_freetext": "",
-              "year": "1998"
             }
           ]
       }
-      expect(publicationInfoFilter(display['publication_info'])).to.be.equal('Published in <i>Int.J.Theor.Phys.</i> 38 (1999) 1113-1133 and <i>Adv.Theor.Math.Phys.</i> 2 (1998) 231-252');
+
+      expect(journalFormatFilter(display['publication_info'][0])).to.be.equal('<i>Int.J.Theor.Phys.</i> 38 (1999) 12, 1113-1133');
     })
   );
 
-  it('should return conference info when conf_info is passed',
-    inject(function(publicationInfoFilter) {
+  it('should return publication info line with only start page',
+    inject(function(journalFormatFilter) {
       var display = {
-        "conference_info": [
-          {
-            "artid": null,
-            "conference_recid": "977661",
-            "conference_title": "2007 IEEE Nuclear Science Symposium and Medical Imaging Conference",
-            "page_end": "52",
-            "page_start": "48",
-            "parent_recid": "1343838",
-            "parent_title": ""
-          }
-        ]
+          "publication_info": [
+            {
+              "artid": "055009",
+              "journal_issue": "12",
+              "journal_title": "Int.J.Theor.Phys.",
+              "journal_volume": "38",
+              "page_end": "",
+              "page_start": "1113",
+              "pubinfo_freetext": "",
+              "year": "1999"
+            }
+          ]
       }
-      expect(publicationInfoFilter([], display['conference_info'])).to.be.equal(' Published in <a href=\"/record/1343838\">proceedings</a> of <a href=\"/record/977661\">2007 IEEE Nuclear Science Symposium and Medical Imaging Conference</a>, pages 48-52');
+
+      expect(journalFormatFilter(display['publication_info'][0])).to.be.equal('<i>Int.J.Theor.Phys.</i> 38 (1999) 12, 1113');
     })
   );
+
+  it('should return publication info freetext',
+    inject(function(journalFormatFilter) {
+      var display = {
+          "publication_info": [
+            {
+              "artid": "055009",
+              "journal_issue": "12",
+              "journal_title": "",
+              "journal_volume": "38",
+              "page_end": "",
+              "page_start": "1113",
+              "pubinfo_freetext": "Phys. Rev. 127 (1962) 965-970",
+              "year": "1999"
+            }
+          ]
+      }
+
+      expect(journalFormatFilter(display['publication_info'][0])).to.be.equal('Phys. Rev. 127 (1962) 965-970');
+    })
+  );
+
+
 });

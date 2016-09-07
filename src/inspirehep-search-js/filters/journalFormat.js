@@ -23,33 +23,45 @@
 
 (function(angular) {
 
-  function publicationInfoDoiFilter(conferenceFormatFilter, journalFormatFilter) {
-    return function(input, pub_info, conference_info) {
+  function journalFormatFilter() {
+    return function(input) {
       if (input === undefined) {
         return;
       }
 
-      var pub_info_and_doi = 'Published in ';
-      pub_info_and_doi += '<a href="http://dx.doi.org/' + input[0].value + '" title="DOI">'  +
-          '<span class="text-left">' + journalFormatFilter(pub_info[0]) + '</span>' + '</a>';
+      var output = '';
 
-      if (conference_info) {
-        var formatted_conference = '';
-        var i, len;
-        for (i = 0, len = conference_info.length; i < len; i++) {
-          formatted_conference = conferenceFormatFilter(conference_info[i], true);
-          if (formatted_conference) {
-            pub_info_and_doi += formatted_conference;
-            break;
-          }
+      if (input['journal_title']) {
+        output += '<i>' + input['journal_title'] + '</i> ';
+
+        if (input['journal_volume']) {
+          output += input['journal_volume'];
+        }
+        if (input['year']) {
+          output += ' ' + '(' + input['year'] + ')';
+        }
+        if (input['journal_issue']) {
+          output += ' ' + input['journal_issue'] + ',';
+        }
+        if (input['page_start'] && input['page_end']) {
+          output += ' ' + input['page_start'] + '-' + input['page_end'];
+        }
+        else if (input['page_start']) {
+          output += ' ' + input['page_start'];
+        }
+        else if (input['artid']) {
+          output += ' ' + input['artid'];
         }
       }
+      else if (input['pubinfo_freetext']) {
+        output += input['pubinfo_freetext'];
+      }
 
-      return pub_info_and_doi;
+      return output;
     };
   }
 
-  angular.module('inspirehepSearch.filters.publicationInfoDoi', [])
-    .filter('publicationInfoDoi', publicationInfoDoiFilter);
+  angular.module('inspirehepSearch.filters.journalFormat', [])
+    .filter('journalFormat', journalFormatFilter);
 
 })(angular);
