@@ -38,6 +38,8 @@
     'inspirehepSearch.filters.doi',
     'inspirehepSearch.filters.publicationInfo',
     'inspirehepSearch.filters.publicationInfoDoi',
+    'inspirehepSearch.filters.conferenceFormat',
+    'inspirehepSearch.filters.journalFormat',
     'inspirehepSearch.filters.reportNumber',
     'inspirehepSearch.filters.title'
   ]);

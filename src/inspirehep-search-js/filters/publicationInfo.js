@@ -22,23 +22,45 @@
  */
 
 (function(angular) {
-  
-  function publicationInfoFilter() {
-    return function(input) {
+
+  function publicationInfoFilter(conferenceFormatFilter, journalFormatFilter) {
+    return function(input, conference_info) {
       if (input === undefined) {
         return;
       }
 
       var pub_info = '';
-      if (input['pub_info']) {
-        pub_info = 'Published in ' + input['pub_info'].join(' and ');
-        
-      }
-      if (input['conf_info']) {
-        pub_info += ' ' + input['conf_info'];
+      var formatted_journals = [];
+      var i, len;
+      for (i = 0, len = input.length; i < len; i++) {
+        if (input[i]['journal_title']) {
+          formatted_journals.push(journalFormatFilter(input[i]));
+        }
       }
 
-      return pub_info;
+      if (formatted_journals) {
+          pub_info = formatted_journals.join(' and ');
+      }
+
+      var formatted_conference = '';
+      if (conference_info) {
+        for (i = 0, len = conference_info.length; i < len; i++) {
+          formatted_conference = conferenceFormatFilter(
+            conference_info[i],
+            formatted_journals.length
+          );
+          if (formatted_conference) {
+              pub_info += ' ' + formatted_conference;
+          }
+        }
+      }
+
+      if (pub_info && formatted_journals.length) {
+        return 'Published in ' + pub_info;
+      }
+      else {
+        return pub_info;
+      }
     };
   }
 
