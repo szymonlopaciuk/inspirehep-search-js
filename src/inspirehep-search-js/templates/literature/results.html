@@ -42,7 +42,7 @@
       </div>
       <div class="col-md-3 right-column">
         <a ng-if="record.metadata.arxiv_eprints|arxiv" type="button" class="btn custom-btn btn-warning link-to-pdf no-external-icon" href="http://arxiv.org/pdf/{{ record.metadata.arxiv_eprints | arxiv }}" >PDF</a>
-        <inspire-export-modal button-template="/static/node_modules/inspirehep-js/dist/templates/export/templates/button_single.html" body-template="/static/node_modules/inspirehep-js/dist/templates/export/templates/modalbody.html" recid={{record.id}}>
+        <inspire-export-modal button-template="/static/node_modules/inspirehep-search-js/dist/templates/export/templates/button_single.html" body-template="/static/node_modules/inspirehep-search-js/dist/templates/export/templates/modalbody.html" recid={{record.id}}>
         </inspire-export-modal>
         <div class="citations-references">
           <span ng-if="record.metadata.citation_count">

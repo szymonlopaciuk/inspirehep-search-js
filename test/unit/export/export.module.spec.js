@@ -21,17 +21,42 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function (angular) {
+'use strict';
 
-  // Setup everything
-  angular.module('inspirehepSearch', [
-    'invenioSearch',
-    'inspirehepFacetsShowMore',
-    'inspirehepExport',
-    'inspirehepPermissions',
-    'inspirehepSearch.filters',
-    'ui.bootstrap',
-    'authors'
-  ]);
+describe('Unit: testing dependencies', function() {
 
-})(angular);
+  var module;
+  var dependencies;
+  dependencies = [];
+
+  var hasModule = function(module) {
+    return dependencies.indexOf(module) >= 0;
+  };
+
+  beforeEach(function() {
+    // Get module
+    module = angular.module('export');
+    dependencies = module.requires;
+  });
+
+  it('should load ngclipboard module', function() {
+    expect(hasModule('ngclipboard')).to.be.ok;
+  });
+
+  it('should load ui bootstrap module', function() {
+    expect(hasModule('ui.bootstrap')).to.be.ok;
+  });
+
+  it('should load controllers module', function() {
+    expect(hasModule('export.controllers')).to.be.ok;
+  });
+
+  it('should load services module', function() {
+    expect(hasModule('export.services')).to.be.ok;
+  });
+
+  it('should load services module', function() {
+    expect(hasModule('export.services')).to.be.ok;
+  });
+
+});

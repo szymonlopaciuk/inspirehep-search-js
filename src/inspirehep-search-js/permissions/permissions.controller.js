@@ -21,17 +21,37 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function (angular) {
+(function(angular) {
 
-  // Setup everything
-  angular.module('inspirehepSearch', [
-    'invenioSearch',
-    'inspirehepFacetsShowMore',
-    'inspirehepExport',
-    'inspirehepPermissions',
-    'inspirehepSearch.filters',
-    'ui.bootstrap',
-    'authors'
-  ]);
+  function permissionsCtrl($scope, $element, $attrs) {
+    $scope.is_authenticated = $attrs.isAuthenticated;
+    $scope.user_roles = $attrs.userRoles;
+    $scope.can_view_editor = can_view_editor();
+    $scope.show_tools = show_tools;
+
+    function show_tools() {
+      return [$scope.can_view_editor].some(function(value) {
+        return value === true;
+      });
+    }
+
+    function can_view_editor() {
+      if ($scope.is_authenticated) {
+        if
+          (
+            (-1 !== $scope.user_roles.indexOf('cataloger')) ||
+            (-1 !== $scope.user_roles.indexOf('superuser'))
+          ) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
+  permissionsCtrl.$inject = ['$scope', '$element', '$attrs'];
+
+  angular.module('permissions.controllers', [])
+    .controller('permissionsCtrl', permissionsCtrl);
 
 })(angular);

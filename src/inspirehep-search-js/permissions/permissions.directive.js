@@ -21,17 +21,18 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-(function (angular) {
+(function(angular) {
 
-  // Setup everything
-  angular.module('inspirehepSearch', [
-    'invenioSearch',
-    'inspirehepFacetsShowMore',
-    'inspirehepExport',
-    'inspirehepPermissions',
-    'inspirehepSearch.filters',
-    'ui.bootstrap',
-    'authors'
-  ]);
+  function inspirePermissions() {
+    return {
+      restrict: 'A',
+      scope: true,
+      controller: 'permissionsCtrl'
+    };
+  }
+
+
+  angular.module('permissions.directives', [])
+    .directive('inspirePermissions', inspirePermissions);
 
 })(angular);

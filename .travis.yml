@@ -30,7 +30,8 @@ sudo: false
 language: node_js
 
 node_js:
-  - '4.2'
+  - '6.9.1'
+  - '7.1.0'
 
 before_script:
   - 'npm install -g gulp'
@@ -44,3 +45,16 @@ script:
 after_success:
   - 'npm run-script coverage'
 
+before_deploy:
+  - 'npm run-script build'
+
+deploy:
+  provider: npm
+  skip_cleanup: true
+  email: admin@inspirehep.net
+  api_key:
+    secure: ksGUX3q+9XJTCNiC7UGfyBL/G99jsvdINH3e8C+uWnIzUHgriGGcRWrvKOJbhazRUOmnmpsR3G3F46vL034Rf3iyf0P1BFuJIDBHkd/e0UT534W0N7NJK/5lHgVmXA0uI7elv4uBg6LHh3F6iL52Ris6+DIWoW3AZvJM41VfbURZrtRTwaLg9N2fJMVwu3KIPu4ZdXLLURkmMl2GRMKC+2bzPSoG8NKbVNQ6CsRWuw/aMa1rIkoteqeQ55G2AfRylK/e0P6OWCscqBUBu7xrnyYNBuRCHkLv6FO3ook2cnkNBZshbbQjWb8DrerRbtvYEvMHpps6Vq9A3B1VrZXPbl2wlnIr71JpuDI3AdY+vL77UES/lkTh8kR6i9lgC42Vm8hHpj9poQmdY4wB5MqHRY1JlCkaENrSyOAbqebV3yhsx1LpjTl4AdOuwKVw1jyLB/ScnIDe5DBm1Cmv1xi0CFc2fokwDidRcxE8BWhlZ0FmGkT4Xk0wRow/5QVRvBwFA7j9HO5EtVitzsJdOgOtL8OjV0LN3tKswN8kuOyd0gZx9rrrT4ivKcNqqzbE1ug3t27UJQD8rF1VbAiq+pP3968QHwsdU2szIGR9HSF2F+q6SspdGFOXt/dgU/ZXfsyerOzDjGxIZ+e/gGuItvrcw8SbOa9soqjAZZlaAJf+L5w=
+  on:
+    tags: true
+    repo: inspirehep/inspirehep-search-js
+    branch: master
