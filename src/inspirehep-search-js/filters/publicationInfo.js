@@ -65,6 +65,11 @@
   }
 
   angular.module('inspirehepSearch.filters.publicationInfo', [])
-    .filter('publicationInfo', publicationInfoFilter);
+    .filter('publicationInfo',
+      [
+        'conferenceFormatFilter',
+        'journalFormatFilter',
+        publicationInfoFilter
+      ]);
 
 })(angular);

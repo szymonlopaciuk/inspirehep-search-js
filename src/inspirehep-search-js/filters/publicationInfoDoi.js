@@ -50,6 +50,11 @@
   }
 
   angular.module('inspirehepSearch.filters.publicationInfoDoi', [])
-    .filter('publicationInfoDoi', publicationInfoDoiFilter);
+    .filter('publicationInfoDoi',
+      [
+        'conferenceFormatFilter',
+        'journalFormatFilter',
+        publicationInfoDoiFilter
+      ]);
 
 })(angular);

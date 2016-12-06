@@ -16,7 +16,8 @@
     "angular-mocks": "=1.4.8",
     "angular-scenario": "=1.4.8",
     "invenio-search-js": "^0.2.1",
-    "angular-ui-bootstrap": "=1.2.4"
+    "angular-ui-bootstrap": "=1.2.4",
+    "ngclipboard": "=1.1.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
