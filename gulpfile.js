@@ -127,19 +127,6 @@ gulp.task('coveralls', function () {
     .pipe(plugins.coveralls());
 });
 
-
-/**
- * Demo
- */
-
-gulp.task('demo', function() {
-  gulp.src(rootDirectory)
-    .pipe(plugins.webserver({
-      livereload: true,
-      open: '/example/index.html'
-  }));
-});
-
 /**
  * Clean tasks
  */

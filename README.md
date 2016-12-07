@@ -47,7 +47,7 @@ For easy development of `inspirehep-search-js` on top of [inspire-next](https://
 	$ cd $VIRTUAL_ENV/src
 	$ git clone git@github.com:<username>/inspirehep-search-js.git
 
-2) Set `ASSETS_DEBUG=True` in your configuration.
+2) Set `ASSETS_DEBUG=True` in your configuration for easier debugging in the browser (files do not get minified).
 
 	$ vim $VIRTUAL_ENV/var/inspirehep-instance/inspirehep.cfg
 
@@ -56,10 +56,12 @@ For easy development of `inspirehep-search-js` on top of [inspire-next](https://
 	$ cd $VIRTUAL_ENV/src/inspire
 	$ ./scripts/clean_assets
 
-4) Now create a symbolic link from the `dist/` folder in your development folder to the instance folder.
+4) Now create a link from your development folder to the instance folder.
 
-	$ rm -rf $VIRTUAL_ENV/var/inspirehep-instance/static/node_modules/inspirehep-search-js/dist
-	$ ln -s $VIRTUAL_ENV/src/inspirehep-search-js/dist/ $VIRTUAL_ENV/var/inspirehep-instance/static/node_modules/inspirehep-search-js/
+	$ cd $VIRTUAL_ENV/src/inspirehep-search-js
+	$ npm link
+	$ cd $VIRTUAL_ENV/var/inspirehep-instance/static
+	$ npm link inspirehep-search-js
 
 5) Start watching changes in the `inspirehep-search-js` folder. Every time a JS or HTML file is modified, tests will run and the `dist/` folder will be recreated.
 
@@ -67,4 +69,4 @@ For easy development of `inspirehep-search-js` on top of [inspire-next](https://
 	$ npm install
 	$ gulp watch
 
-6) Every time you modify a JavaScript or HTML template, hard refresh your browser to avoid caching and see your changes.
+6) Every time you modify a JavaScript or HTML template, **hard refresh** your browser to avoid caching and see your changes.
