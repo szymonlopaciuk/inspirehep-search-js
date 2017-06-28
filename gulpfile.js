@@ -29,6 +29,7 @@ var path = require('path');
 var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 var shell = require('gulp-shell');
+var templateCache = require('gulp-angular-templatecache');
 
 /**
  * File patterns
@@ -73,26 +74,37 @@ var lintFiles = [
 // run all the build tasks
 gulp.task('build', ['clean.build'], function (done) {
   runSequence(
-    'build.src', 'build.templates', done
+    'build.templates', 'build.src', done
   );
 });
 
+
 // build the javascript files
-gulp.task('build.src', function() {
-  gulp.src(sourceFiles)
+gulp.task('build.src', function(done) {
+  gulp.src(sourceFiles.concat([path.join(rootDirectory, './dist/templates/templates.js')]))
     .pipe(plugins.plumber())
     .pipe(plugins.concat('inspirehep-search.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(plugins.uglify())
     .pipe(plugins.rename('inspirehep-search.min.js'))
     .pipe(plugins.header(licences.javascript))
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./dist'))
+    .on('end', done);
 });
 
-// move the templates to dist
-gulp.task('build.templates', function() {
+
+
+// inline templates with $templateCache
+gulp.task('build.templates', function(done) {
   gulp.src(templates, {cwd: sourceDirectory + 'inspirehep-search-js'})
-    .pipe(gulp.dest('./dist/templates'));
+    .pipe(templateCache('templates.js', {
+      moduleSystem: 'IIFE',
+      standalone: true,
+      root: '/static/node_modules/inspirehep-search-js/dist/templates/',
+      module: 'inspirehepSearchTemplates'
+    }))
+    .pipe(gulp.dest('./dist/templates'))
+    .on('end', done);
 });
 
 /**
