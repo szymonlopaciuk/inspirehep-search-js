@@ -30,6 +30,7 @@
     'inspirehepExport',
     'inspirehepPermissions',
     'inspirehepSearch.filters',
+    'inspirehepSearchTemplates',
     'ui.bootstrap',
     'authors'
   ]);
