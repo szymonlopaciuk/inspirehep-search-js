@@ -30,6 +30,7 @@ var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 var shell = require('gulp-shell');
 var templateCache = require('gulp-angular-templatecache');
+var babel = require('gulp-babel');
 
 /**
  * File patterns
@@ -53,7 +54,8 @@ var sourceFiles = [
 
 var templates = [
   path.join(sourceDirectory, '/inspirehep-search-js/templates/**/*.html'),
-  path.join(sourceDirectory, '/inspirehep-export/**/templates/**/*.html')
+  path.join(sourceDirectory, '/inspirehep-export/**/templates/**/*.html'),
+  path.join(sourceDirectory, '/inspirehep-holdingpen-js/templates/**/*.html')
 ];
 
 // Get licenses
@@ -83,6 +85,9 @@ gulp.task('build', ['clean.build'], function (done) {
 gulp.task('build.src', function(done) {
   gulp.src(sourceFiles.concat([path.join(rootDirectory, './dist/templates/templates.js')]))
     .pipe(plugins.plumber())
+    .pipe(babel({
+      presets: ['es2015']
+    }))
     .pipe(plugins.concat('inspirehep-search.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(plugins.uglify())
@@ -120,7 +125,9 @@ gulp.task('test', function (done) {
 gulp.task('test.jshint', function () {
   return gulp.src(lintFiles)
     .pipe(plugins.plumber())
-    .pipe(plugins.jshint())
+    .pipe(plugins.jshint({
+      esversion: 6
+    }))
     .pipe(plugins.jshint.reporter('jshint-stylish'))
     .pipe(plugins.jshint.reporter('fail'));
 });

@@ -20,30 +20,16 @@
  * waive the privileges and immunities granted to it by virtue of its status
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
-
-'use strict';
-
-describe('Unit: testing dependencies', function() {
-
-  var module;
-  var dependencies;
-  dependencies = [];
-
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
-
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehep');
-    dependencies = module.requires;
-  });
-
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
-});
+(function (angular) {
+  function unifyKeywordsFilter() {
+    return function (classifier_results) {
+      var filteredCoreKeywords = classifier_results.filtered_core_keywords || [];
+      var coreKeywords = classifier_results.core_keywords || [];
+      var keywords = filteredCoreKeywords.concat(coreKeywords).map(function (keyword) {
+        return keyword.keyword;
+      });
+      return Array.from(new Set(keywords));
+    };
+  }
+  angular.module('holdingpen.filters.unifyKeywords', []).filter('unifyKeywords', unifyKeywordsFilter);
+}(angular));
