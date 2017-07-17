@@ -21,29 +21,19 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-'use strict';
+(function (angular) {
 
-describe('Unit: testing dependencies', function() {
+  // Setup everything
+  angular.module('inspirehep', [
+    'invenioSearch',
+    'inspirehepHoldingpen',
+    'inspirehepFacetsShowMore',
+    'inspirehepExport',
+    'inspirehepPermissions',
+    'inspirehepSearch.filters',
+    'inspirehepSearchTemplates',
+    'ui.bootstrap',
+    'authors'
+  ]);
 
-  var module;
-  var dependencies;
-  dependencies = [];
-
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
-
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehep');
-    dependencies = module.requires;
-  });
-
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
-});
+})(angular);

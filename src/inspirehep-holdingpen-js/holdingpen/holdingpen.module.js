@@ -1,6 +1,6 @@
 /*
  * This file is part of INSPIRE.
- * Copyright (C) 2016 CERN.
+ * Copyright (C) 2017 CERN.
  *
  * INSPIRE is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -21,29 +21,23 @@
  * as an Intergovernmental Organization or submit itself to any jurisdiction.
  */
 
-'use strict';
+(function (angular) {
 
-describe('Unit: testing dependencies', function() {
+  var inspirehepHoldingpen = angular.module('inspirehepHoldingpen', ['xeditable',
+    'ui.bootstrap',
+    'fps.hotkeys',
+    'ngSanitize',
+    'holdingpen.directives',
+    'holdingpen.controllers',
+    'holdingpen.services',
+    'angular.filter',
+    'holdingpen.filters'
+  ]);
 
-  var module;
-  var dependencies;
-  dependencies = [];
+  inspirehepHoldingpen.run(['editableOptions', 'editableThemes', function (editableOptions, editableThemes) {
+    editableThemes.bs3.inputClass = 'input-md';
+    editableThemes.bs3.buttonsClass = 'btn-md';
+    editableOptions.theme = 'bs3';
+  }]);
 
-  var hasModule = function(module) {
-    return dependencies.indexOf(module) >= 0;
-  };
-
-  beforeEach(function() {
-    // Get module
-    module = angular.module('inspirehep');
-    dependencies = module.requires;
-  });
-
-  it('should load filters module', function() {
-    expect(hasModule('inspirehepSearch.filters')).to.be.ok;
-  });
-
-  it('should load angular-ui module', function() {
-    expect(hasModule('ui.bootstrap')).to.be.ok;
-  });
-});
+})(angular);

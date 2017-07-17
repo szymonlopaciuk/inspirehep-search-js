@@ -35,6 +35,7 @@ module.exports = function(config) {
     frameworks: ['mocha', 'chai-jquery', 'jquery-1.8.3', 'sinon-chai'],
 
     plugins: [
+      'karma-babel-preprocessor',
       'karma-chai',
       'karma-chai-jquery',
       'karma-coverage',
@@ -72,8 +73,20 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/*.js': ['coverage'],
+      'src/**/*.js': ['coverage', 'babel'],
       'src/**/**/**/*.html': ['ng-html2js'],
+    },
+
+    babelPreprocessor: {
+      options: {
+        presets: ['es2015']
+      },
+      filename: function (file) {
+        return file.originalPath.replace(/\.js$/, '.es5.js');
+      },
+      sourceFileName: function (file) {
+        return file.originalPath;
+      }
     },
 
     // Coverage reporter
