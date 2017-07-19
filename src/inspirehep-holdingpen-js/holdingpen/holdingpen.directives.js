@@ -73,7 +73,7 @@
             for (var select_record_idx in $scope.vm.selected_records) {
               HoldingPenRecordService.deleteRecord($scope.vm, $scope.vm.selected_records[select_record_idx], false);
             }
-            window.location = '/holdingpen/list';
+            window.location.reload();
             $scope.vm.batch_message = $scope.vm.selected_records.length + ' workflows deleted.';
             $scope.modal.dismiss('cancel');
           },
