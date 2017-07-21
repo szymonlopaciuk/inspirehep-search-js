@@ -4,16 +4,16 @@
       <div class="col-md-12">
         <h2 class="record-brief-title">
           <a ng-href="/conferences/{{ record.id }}">
-            {{ record.metadata.titles[0].title }}
-            <span ng-if="record.metadata.acronym[0]">
-              ({{ record.metadata.acronym[0] }})
+            {{ record.titles[0].title }}
+            <span ng-if="record.acronym[0]">
+              ({{ record.acronym[0] }})
             </span>
           </a>
         </h2>
         <div class="record-brief-subtitle">
-          <span class="conf-place" ng-if="record.metadata.address[0].original_address">
+          <span class="conf-place" ng-if="record.address[0].original_address">
             <i class="fa fa-map-marker"></i>
-            <span class="conf-date" ng-if="record.metadata.date">
+            <span class="conf-date" ng-if="record.date">
               {{ record.metadata.date }}.
             </span>
             {{ record.metadata.address[0].original_address }}
@@ -45,7 +45,11 @@
       </div>
     </div>
   </div>
-  <div ng-if="show_tools()" class="panel-footer">
-    <a ng-if="can_view_editor" href="/editor/conferences/{{record.id}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+  <div ng-if="record.display.admin_tools.length > 0" class="panel-footer">
+    <div ng-repeat="tool in record.display.admin_tools">
+      <span ng-switch="tool">
+        <a ng-switch-when="editor" href="/editor/conferences/{{record.id}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+      </span>
+    </div>
   </div>
 </article>

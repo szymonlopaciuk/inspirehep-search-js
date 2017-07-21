@@ -29,7 +29,6 @@
     'inspirehepHoldingpen',
     'inspirehepFacetsShowMore',
     'inspirehepExport',
-    'inspirehepPermissions',
     'inspirehepSearch.filters',
     'inspirehepSearchTemplates',
     'ui.bootstrap',
