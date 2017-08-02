@@ -55,10 +55,10 @@
         _remove_record_method(record);
         $scope.vm.selected_records.splice(getItemIdx(+record._id), 1);
         if (_data_type in $scope.vm.selected_record_decisions) {
-          $scope.vm.selected_record_decisions[_data_type].splice(
-            $scope.vm.selected_record_decisions[_data_type].indexOf(+record._id),
-            1
-          );
+          var record_idx = $scope.vm.selected_record_decisions[_data_type].indexOf(+record._id);
+          if (record_idx !== -1) {
+            $scope.vm.selected_record_decisions[_data_type].splice(record_idx, 1);
+          }
         }
       } else {
         _add_record_method(record);
@@ -90,7 +90,7 @@
                 $scope.vm.selected_record_decisions[record._source._workflow.data_type] = [];
               }
               if (record._source._extra_data === undefined || record._source._extra_data.user_action === undefined) {
-                $scope.vm.selected_record_decisions[record._source._workflow.data_type].push(record._id);
+                $scope.vm.selected_record_decisions[record._source._workflow.data_type].push(+record._id);
               }
             }
           }
