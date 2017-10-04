@@ -5,7 +5,9 @@
       <ul class="list-unstyled" ng-controller="FacetsShowMoreController">
         <li class="checkbox checkbox-facets" ng-repeat="item in vm.invenioSearchResults.aggregations[key].buckets | limitTo: facetResults">
           <label>
-            <input class="include-facet" type="checkbox" ng-checked="handler[key].indexOf(item.key) > -1" ng-click="handleClick(key, item.key)" />
+            <span class="checkbox-container">
+              <input class="include-facet" type="checkbox" ng-checked="handler[key].indexOf(item.key) > -1" ng-click="handleClick(key, item.key)" />
+            </span>
             <span ng-switch="key">
               <span ng-switch-when="arxiv_categories" class="facet-title-truncate">{{ item.key }}</span>
               <span ng-switch-default class="facet-title-truncate">{{ item.key | capitalize }}</span>
