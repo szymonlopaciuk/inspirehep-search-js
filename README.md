@@ -44,29 +44,55 @@ For easy development of `inspirehep-search-js` on top of [inspire-next](https://
 
 1) Fork this repo and clone your personal fork.
 
-	$ cd $VIRTUAL_ENV/src
-	$ git clone git@github.com:<username>/inspirehep-search-js.git
+    $ git clone git@github.com:<username>/inspirehep-search-js.git
+    $ cd /inspirehep-search-js
 
 2) Set `ASSETS_DEBUG=True` in your configuration for easier debugging in the browser (files do not get minified).
 
-	$ vim $VIRTUAL_ENV/var/inspirehep-instance/inspirehep.cfg
+    $ vim $DOCKER_DATA/tmp/virtualenv/var/inspirehep-instance/inspirehep.cfg
 
-3) If you want to make sure all your assets are correctly installed in `$VIRTUAL_ENV/var/inspirehep-instance/static`, do:
+3) Install nodejs and npm on your system. If you are using Ubuntu, create a symlink from node to nodejs because of a naming conflict with the node package:
 
-	$ cd $VIRTUAL_ENV/src/inspire
-	$ ./scripts/clean_assets
+    $ sudo apt-get update
+    $ sudo apt-get install nodejs
+    $ sudo ln -s "$(which nodejs)" /usr/bin/node
+    $ sudo apt-get install npm
 
-4) Now create a link from your development folder to the instance folder.
+4) Install phantomjs on your system and add `PHANTOMJS_BIN:$(which phantomjs)` env variable in `.bashrc` or `.zshrc`. to specify the path to the phantomjs binary:
 
-	$ cd $VIRTUAL_ENV/src/inspirehep-search-js
-	$ npm link
-	$ cd $VIRTUAL_ENV/var/inspirehep-instance/static
-	$ npm link inspirehep-search-js
+    $ sudo apt-get update
+    $ sudo apt-get install phantomjs
 
-5) Start watching changes in the `inspirehep-search-js` folder. Every time a JS or HTML file is modified, tests will run and the `dist/` folder will be recreated.
+5) Assuming you followed the current INSPIRE installation guide documentation, add the volume to `services.yml` to mount `inspire-search-js` on docker.
 
-	$ cd $VIRTUAL_ENV/src/inspirehep-search-js
-	$ npm install
-	$ gulp watch
+    $ vim /inspire-next/services.yml
 
-6) Every time you modify a JavaScript or HTML template, **hard refresh** your browser to avoid caching and see your changes.
+    ```
+    static:
+        image: busybox
+        volumes:
+        - "<your-local-path>/inspirehep-search-js:/inspirehep-search-js"
+        ```
+
+6) Restart the containers and open a bash in the web container:
+
+    $ docker-compose kill
+    $ docker-compose rm
+    $ docker-compose run web bash
+
+7)  In the container bash, link the js volume to `/static/node_modules`:
+
+    $ rm -rf /virtualenv/var/inspirehep-instance/static/node_modules/inspirehep-search-js
+    $ ln -s /inspirehep-search-js /virtualenv/var/inspirehep-instance/static/node_modules/inspirehep-search-js
+
+8) To install all dependencies and gulp, in the `inspirehep-search-js` folder run:
+
+    $ npm install
+    $ nmp install gulp
+
+9) As you run inspire-next, start watching changes in the `inspirehep-search-js` folder. Every time a JS or HTML file is modified, tests will run and the `dist/` folder will be recreated.
+
+    $ cd /inspirehep-search-js
+    $ gulp watch
+
+10) Every time you modify a JavaScript or HTML template, **hard refresh** your browser to avoid caching and see your changes.
