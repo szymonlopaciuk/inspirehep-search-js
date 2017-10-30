@@ -15,12 +15,15 @@
   </button>
 
   <button ng-if="vm.record.metadata.acquisition_source.method == 'submitter'"
-          class="btn btn-danger"
-          ng-click="Utils.setRejectionReason()">Reject
+          ng-class="{'btn btn-danger': vm.record._extra_data.journal_coverage == 'partial',
+          'btn btn-danger-weak': vm.record._extra_data.journal_coverage == 'full'}"
+          ng-click="Utils.setRejectionReason()"
+          uib-tooltip="The article belongs to a fully taken journal">Reject
   </button>
   <button ng-if="vm.record.metadata.acquisition_source.method == 'hepcrawl'"
           class="btn btn-danger"
-          ng-click="Utils.setDecision('reject')">Reject
+          ng-click="Utils.setDecision('reject')"
+          uib-tooltip="The article belongs to a fully taken journal">Reject
   </button>
 </div>
 
