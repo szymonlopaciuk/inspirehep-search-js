@@ -68,8 +68,7 @@
              ng-class="record._source._workflow.workflow_class"
              ng-bind="record._source.metadata.acquisition_source.source"></p>
           <p ng-bind="record._source.metadata.acquisition_source.email"></p>
-          <p
-            ng-bind="record._source._workflow.created | date: ''"></p>
+          <p ng-if="record._source._workflow.created" ng-bind="record._source._workflow.created | date: ''"></p>
         </div>
 
         <div class="col-md-2 pad-top-10">
