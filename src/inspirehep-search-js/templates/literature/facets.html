@@ -1,6 +1,10 @@
 <div ng-init="order={'doc_type': 'Document type', 'subject': 'Subject', 'arxiv_categories': 'arXiv category', 'author': 'Author', 'experiment': 'Experiment'}">
   <div ng-if="vm.invenioSearchResults.aggregations[key].buckets.length" ng-repeat="(key, title) in order">
-    <h4>Filter by {{ title }}</h4>
+    <h4>Filter by {{ title }}
+        <a ng-show="isFacetSelected(key)" 
+        ng-click="resetSelection(key)" 
+        class="pull-right facet-reset">Reset</a>
+    </h4>
     <div class="facet-container">
       <ul class="list-unstyled" ng-controller="FacetsShowMoreController">
         <li class="checkbox checkbox-facets" ng-repeat="item in vm.invenioSearchResults.aggregations[key].buckets | limitTo: facetResults">
