@@ -433,7 +433,7 @@
             </button>
             <button class="btn btn-info"
                     ng-if="vm.record._workflow.status === 'HALTED'"
-                    ng-click="Utils.redirect('/editor/holdingpen/' + vm.record.id)">
+                    ng-click="Utils.saveAndRedirect('/editor/holdingpen/' + vm.record.id)">
               <i class="fa fa-pencil" aria-hidden="true"></i> Open in Editor
             </button>
             <button class="btn btn-default"
