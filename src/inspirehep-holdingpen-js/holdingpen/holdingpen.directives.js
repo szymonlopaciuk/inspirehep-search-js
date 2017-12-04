@@ -270,6 +270,11 @@
             $window.location = url;
           },
 
+          saveAndRedirect: function(url) {
+            HoldingPenRecordService.updateRecord($scope.vm, $scope.workflowId)
+            .then($window.location = url);
+          },
+
           addSubjectArea: function () {
             function _subjectAlreadyPresent(subject) {
               for (var i = 0; i < $scope.vm.record.metadata.inspire_categories.length; i++) {
