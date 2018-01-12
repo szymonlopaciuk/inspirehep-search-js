@@ -112,17 +112,25 @@
                 <button class="btn btn-warning"
                         ng-click="setDecision(record._id,'accept')">Accept
                 </button>
-                <button ng-if="record._source.metadata.acquisition_source.method == 'hepcrawl'"
-                        ng-class="{'btn btn-danger': record._source._extra_data.journal_coverage == 'partial',
-                                   'btn btn-danger-weak': record._source._extra_data.journal_coverage == 'full'}"
+                <button ng-if="record._source.metadata.acquisition_source.method == 'hepcrawl' && record._source._extra_data.journal_coverage == 'full'"
+                        class="btn btn-danger-weak"
                         ng-click="redirect('/holdingpen/' + record._id)"
                         uib-tooltip="The article belongs to a fully taken journal">Reject
                 </button>
-                <button ng-if="record._source.metadata.acquisition_source.method == 'submitter'"
-                        ng-class="{'btn btn-danger':record._source._extra_data.journal_coverage == 'partial',
-                                   'btn btn-danger-weak':record._source._extra_data.journal_coverage == 'full'}"
+                  <button ng-if="record._source.metadata.acquisition_source.method == 'hepcrawl'
+                                 && (!record._source._extra_data.journal_coverage || record._source._extra_data.journal_coverage == 'partial')"
+                        class="btn btn-danger"
+                        ng-click="redirect('/holdingpen/' + record._id)">Reject
+                </button>
+                <button ng-if="record._source.metadata.acquisition_source.method == 'submitter' && record._source._extra_data.journal_coverage == 'full'"
+                        class="btn btn-danger-weak"
                         ng-click="redirect('/holdingpen/' + record._id)"
                         uib-tooltip="The article belongs to a fully taken journal">Reject
+                </button>
+                  <button ng-if="record._source.metadata.acquisition_source.method == 'submitter'
+                                 && (!record._source._extra_data.journal_coverage || record._source._extra_data.journal_coverage == 'partial')"
+                        class="btn btn-danger"
+                        ng-click="redirect('/holdingpen/' + record._id)">Reject
                 </button>
               </div>
             </div>

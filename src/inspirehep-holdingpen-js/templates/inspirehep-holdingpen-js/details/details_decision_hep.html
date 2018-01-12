@@ -14,16 +14,25 @@
           ng-click="Utils.setDecision('accept')">Accept
   </button>
 
-  <button ng-if="vm.record.metadata.acquisition_source.method == 'submitter'"
-          ng-class="{'btn btn-danger': vm.record._extra_data.journal_coverage == 'partial',
-          'btn btn-danger-weak': vm.record._extra_data.journal_coverage == 'full'}"
+  <button ng-if="vm.record.metadata.acquisition_source.method == 'submitter' && vm.record._extra_data.journal_coverage == 'full'"
+          class="btn btn-danger-weak"
           ng-click="Utils.setRejectionReason()"
           uib-tooltip="The article belongs to a fully taken journal">Reject
   </button>
-  <button ng-if="vm.record.metadata.acquisition_source.method == 'hepcrawl'"
-          class="btn btn-danger"
+    <button ng-if="vm.record.metadata.acquisition_source.method == 'submitter'
+                   && (!vm.record._extra_data.journal_coverage || vm.record._extra_data.journal_coverage == 'partial')"
+            class="btn btn-danger"
+            ng-click="Utils.setRejectionReason()">Reject
+  </button>
+    <button ng-if="vm.record.metadata.acquisition_source.method == 'hepcrawl' && vm.record._extra_data.journal_coverage == 'full'"
+          class="btn btn-danger-weak"
           ng-click="Utils.setDecision('reject')"
           uib-tooltip="The article belongs to a fully taken journal">Reject
+  </button>
+  <button ng-if="vm.record.metadata.acquisition_source.method == 'hepcrawl'
+                 && (!vm.record._extra_data.journal_coverage || vm.record._extra_data.journal_coverage == 'partial')"
+          class="btn btn-danger"
+          ng-click="Utils.setDecision('reject')">Reject
   </button>
 </div>
 

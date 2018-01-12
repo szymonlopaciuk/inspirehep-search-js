@@ -78,7 +78,8 @@
       HoldingPenRecordService.setBatchDecision($scope.vm.invenioSearchResults.hits.hits, [+id], decision);
     }
     function hasConflicts(record) {
-      return record._source._extra_data.conflicts !== undefined && record._source._extra_data.conflicts.length > 0;
+      var _extra_data =  record._source._extra_data;
+      return _extra_data && _extra_data.conflicts !== undefined && _extra_data.conflicts.length > 0;
     }
     function toggleAll() {
       var remove_all = allChecked();
