@@ -32,7 +32,7 @@
       var dois = [];
       for (var i=0; i < input.length; i++) {
         if (input[i].value) {
-          dois.push('<a href="http://dx.doi.org/' + input[i].value + '" title="DOI" >' + input[i].value + '</a>');
+          dois.push('<a href="https://doi.org/' + input[i].value + '" title="DOI" >' + input[i].value + '</a>');
         }
       }
 

@@ -30,7 +30,7 @@ describe('Test doi filter', function() {
   it('should return a link to the only value in Array',
     inject(function(doiFilter) {
       var doi = [{value: '10.1007/JHEP09(2011)109'}];
-      expect(doiFilter(doi)).to.be.equal('DOI: <a href="http://dx.doi.org/10.1007/JHEP09(2011)109" title="DOI" >10.1007/JHEP09(2011)109</a>');
+      expect(doiFilter(doi)).to.be.equal('DOI: <a href="https://doi.org/10.1007/JHEP09(2011)109" title="DOI" >10.1007/JHEP09(2011)109</a>');
     })
   );
 
@@ -44,7 +44,7 @@ describe('Test doi filter', function() {
   it('should return multiple dois links separated by comma when multiple values in Array',
     inject(function(doiFilter) {
       var doi = [{value:'10.1007/JHEP01(2014)163'},{source:'bibmatch', value:'10.1007/JHEP01(2015)014'}];
-      expect(doiFilter(doi)).to.be.equal('DOI: <a href="http://dx.doi.org/10.1007/JHEP01(2014)163" title="DOI" >10.1007/JHEP01(2014)163</a>, <a href="http://dx.doi.org/10.1007/JHEP01(2015)014" title="DOI" >10.1007/JHEP01(2015)014</a>');
+      expect(doiFilter(doi)).to.be.equal('DOI: <a href="https://doi.org/10.1007/JHEP01(2014)163" title="DOI" >10.1007/JHEP01(2014)163</a>, <a href="https://doi.org/10.1007/JHEP01(2015)014" title="DOI" >10.1007/JHEP01(2015)014</a>');
     })
   );
 

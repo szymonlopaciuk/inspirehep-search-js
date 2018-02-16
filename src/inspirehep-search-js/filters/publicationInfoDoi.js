@@ -30,7 +30,7 @@
       }
 
       var pub_info_and_doi = 'Published in ';
-      pub_info_and_doi += '<a href="http://dx.doi.org/' + input[0].value + '" title="DOI">'  +
+      pub_info_and_doi += '<a href="https://doi.org/' + input[0].value + '" title="DOI">'  +
           '<span class="text-left">' + journalFormatFilter(pub_info[0]) + '</span>' + '</a>';
 
       if (conference_info) {
