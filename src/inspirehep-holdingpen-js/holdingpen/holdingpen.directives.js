@@ -350,11 +350,7 @@
 
           hasValidationErrors: function () {
             var record = $scope.vm.record;
-
-            if (!record) { return false; }
-  
-            var _extra_data = record._extra_data;
-            return _extra_data && _extra_data.validation_errors && _extra_data.validation_errors.length > 0;
+            return HoldingPenRecordService.hasValidationErrors(record);
           }
         };
       }
