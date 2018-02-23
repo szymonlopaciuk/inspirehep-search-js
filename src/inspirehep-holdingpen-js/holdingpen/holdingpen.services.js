@@ -135,6 +135,13 @@
               }).catch(function (value) {
                 vm.restarted = false;
               });
+            },
+
+            hasValidationErrors: function (workflow) {
+              if (!workflow) { return false; }
+    
+              var _extra_data = workflow._extra_data;
+              return _extra_data && _extra_data.validation_errors && _extra_data.validation_errors.length > 0;
             }
           };
         }
