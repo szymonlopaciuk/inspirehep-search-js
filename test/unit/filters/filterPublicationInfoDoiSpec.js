@@ -51,7 +51,7 @@ describe('Test publication info with doi filter', function() {
             }
           ]
       }
-      expect(publicationInfoDoiFilter(doi, display['publication_info'])).to.be.equal('Published in <a href="http://dx.doi.org/10.1088/0954-3899/41/5/055009" title="DOI"><span class="text-left"><i>J.Phys.</i> G41 (2014) 055009</span></a>');
+      expect(publicationInfoDoiFilter(doi, display['publication_info'])).to.be.equal('Published in <a href="https://doi.org/10.1088/0954-3899/41/5/055009" title="DOI"><span class="text-left"><i>J.Phys.</i> G41 (2014) 055009</span></a>');
     })
   );
 
@@ -84,7 +84,7 @@ describe('Test publication info with doi filter', function() {
       ]
     }
 
-      expect(publicationInfoDoiFilter(doi, display['publication_info'], display['conference_info'])).to.be.equal('Published in <a href="http://dx.doi.org/10.1109/NSSMIC.2007.4436620" title="DOI"><span class="text-left"><i>IEEE Nucl.Sci.Symp.Conf.Rec.</i> 3 (2007) 2368-2372</span></a> (<a href="/record/1343838">Proceedings</a> of <a href="/record/977661">' +
+      expect(publicationInfoDoiFilter(doi, display['publication_info'], display['conference_info'])).to.be.equal('Published in <a href="https://doi.org/10.1109/NSSMIC.2007.4436620" title="DOI"><span class="text-left"><i>IEEE Nucl.Sci.Symp.Conf.Rec.</i> 3 (2007) 2368-2372</span></a> (<a href="/record/1343838">Proceedings</a> of <a href="/record/977661">' +
         '2007 IEEE Nuclear Science Symposium and Medical Imaging Conference</a>)');
     })
   );
