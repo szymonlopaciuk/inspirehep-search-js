@@ -22,9 +22,13 @@
 
 <h4 class="custom-h">
 
-  <a class="title" ng-if="record._source.metadata.titles"
+  <a class="title" ng-if="record._source.metadata.titles && !hasCrawlErrors(record)"
      ng-href="/holdingpen/{{record._id}}"
      ng-bind-html='record._source.metadata.titles[0].title'></a>
+  <a class="title" ng-if="hasCrawlErrors(record)"
+    ng-href="/holdingpen/{{record._id}}">
+    {{record._source._extra_data.crawl_errors.file_name}}
+  </a>
 </h4>
 
 <div class="authors" ng-if="record._source.metadata.authors">
