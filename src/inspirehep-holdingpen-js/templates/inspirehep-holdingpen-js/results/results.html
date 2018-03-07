@@ -187,7 +187,9 @@
           </div>
 
           <div ng-if="record._source._workflow.status === 'ERROR'">
-            <br/>
+            <a ng-if="hasValidationErrors(record)" class="btn btn-danger btn-resolve-errors"
+              href="/editor/holdingpen/{{record._id}}">Resolve Errors	
+            </a>
             <p class="red-color">
             <i class="fa fa-exclamation-triangle icon-large"></i> Error</p>
             <p class="small-text">
