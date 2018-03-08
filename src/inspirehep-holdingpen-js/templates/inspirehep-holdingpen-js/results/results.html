@@ -121,7 +121,7 @@
                  </div>
                 <div ng-if="matchDecisionMadeById[record._id]">
                   <p ng-if="matchedById[record._id]"><i class="fa fa-check" aria-hidden="true"></i> Record was matched</p>
-                  <p ng-if="matchedById[record._id]">No Matches</p>
+                  <p ng-if="!matchedById[record._id]">No Matches</p>
                 </div>
              </div>
 
