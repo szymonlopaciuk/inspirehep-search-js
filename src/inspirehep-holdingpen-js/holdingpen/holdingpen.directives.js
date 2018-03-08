@@ -369,6 +369,11 @@
           hasValidationErrors: function () {
             var record = $scope.vm.record;
             return HoldingPenRecordService.hasValidationErrors(record);
+          },
+
+          hasCrawlErrors: function () {
+            var record = $scope.vm.record;
+            return HoldingPenRecordService.hasCrawlErrors(record);
           }
         };
       }

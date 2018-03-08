@@ -48,6 +48,13 @@
           Stack Trace</a>
         </span>
       </p>
+
+      <p ng-if="Utils.hasCrawlErrors()">
+        <p ng-repeat="error in vm.record._extra_data.crawl_errors.errors">
+            {{error.exception}}
+        </p>
+        <a href="#errors" style="color: white">View Stack Trace</a>
+      </p>
     </div>
   </div>
 </div>
@@ -57,13 +64,17 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="detail-panel" id="hp-panel-detailed-info">
+        <div ng-if ="Utils.hasCrawlErrors()" class="detail-panel" id="hp-panel-detailed-info" >
+          <h4 class="record-title">
+            {{vm.record._extra_data.crawl_errors.file_name}}
+          </h4>
+        </div>
+        <div ng-if ="!Utils.hasCrawlErrors()" class="detail-panel" id="hp-panel-detailed-info">
           <div ng-if="vm.record._workflow.data_type === 'hep'">
             <h4 class="record-title"
                 ng-bind-html="vm.record.metadata.titles[0].title"
                 editable-text="vm.record.metadata.titles[0].title"
                 e-ng-change="Utils.registerUpdateEvent()"></h4>
-
             <div ng-if="vm.record.metadata.publication_info" class="text-bolder">
               <p class="text-muted">{{vm.record.metadata.publication_info[0].journal_title}}, {{vm.record.metadata.publication_info[0].year}}</p>
             </div>
@@ -252,7 +263,7 @@
       </div>
 
       <div class="col-md-6 col-sm-6"
-           ng-if="vm.record._workflow.data_type == 'hep'">
+           ng-if="vm.record._workflow.data_type == 'hep' && !Utils.hasCrawlErrors()">
         <holding-pen-template-handler
           template="/static/node_modules/inspirehep-search-js/dist/templates/inspirehep-holdingpen-js/details/details_subject_areas.html">
         </holding-pen-template-handler>
@@ -289,7 +300,7 @@
 
 
       <div class="col-md-6 col-sm-6"
-           ng-if="vm.record._workflow.data_type == 'hep'">
+           ng-if="vm.record._workflow.data_type == 'hep' && !Utils.hasCrawlErrors()">
         <holding-pen-template-handler
           template="/static/node_modules/inspirehep-search-js/dist/templates/inspirehep-holdingpen-js/details/details_keywords.html">
         </holding-pen-template-handler>
@@ -346,7 +357,7 @@
 
 
       <!--Osion Panel-->
-      <div class="col-md-12">
+      <div class="col-md-12" ng-if="!Utils.hasCrawlErrors()">
         <div class="detail-panel" id="hp-panel-decision-controls">
           <h4>Decision</h4>
 
@@ -407,7 +418,7 @@
       </div>
 
       <!--RT Panel-->
-      <div class="col-md-12">
+      <div class="col-md-12" ng-if="!Utils.hasCrawlErrors()">
         <div class="detail-panel" id="hp-panel-rt-info">
           <h4>RT information</h4>
 

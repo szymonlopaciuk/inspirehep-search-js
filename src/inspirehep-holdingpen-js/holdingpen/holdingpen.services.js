@@ -32,12 +32,19 @@
           return {
 
             getRecord: function (vm, workflowId) {
+              var service = this;
               $http.get('/api/holdingpen/' + workflowId).then(function (response) {
                 vm.record = response.data;
                 if (vm.record._workflow.data_type === 'authors') {
                   $('#breadcrumb').html(vm.record.metadata.name.value);
                 } else {
-                  $('#breadcrumb').html(vm.record.metadata.titles[0].title.substring(0, 70) + '...');
+                  var title;
+                  if (service.hasCrawlErrors(vm.record)) {
+                    title = vm.record._extra_data.crawl_errors.file_name;
+                  } else {
+                    title = vm.record.metadata.titles[0].title;
+                  }
+                  $('#breadcrumb').html(title > 70 ? title.substring(0, 70) + '...' : title);
                 }
               }).catch(function (value) {
                 vm.ingestion_complete = false;
@@ -146,6 +153,13 @@
     
               var _extra_data = workflow._extra_data;
               return _extra_data && _extra_data.validation_errors && _extra_data.validation_errors.length > 0;
+            },
+
+            hasCrawlErrors: function (workflow) {
+              if (!workflow) { return false; }
+    
+              var _extra_data = workflow._extra_data;
+              return _extra_data && _extra_data.crawl_errors;
             }
           };
         }

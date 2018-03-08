@@ -38,6 +38,7 @@
     $scope.redirect = redirect;
     $scope.hasConflicts = hasConflicts;
     $scope.hasValidationErrors = hasValidationErrors;
+    $scope.hasCrawlErrors = hasCrawlErrors;
     function _add_record_method(record) {
       var method = record._source.metadata.acquisition_source.method;
       if (method in $scope.vm.selected_record_methods) {
@@ -106,6 +107,9 @@
     }
     function hasValidationErrors(record) {
       return HoldingPenRecordService.hasValidationErrors(record._source);
+    }
+    function hasCrawlErrors(record) {
+      return HoldingPenRecordService.hasCrawlErrors(record._source);
     }
     function toggleAll() {
       var remove_all = allChecked();
