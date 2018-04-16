@@ -34,9 +34,37 @@
 <div class="authors" ng-if="record._source.metadata.authors">
     <span ng-repeat="author in record._source.metadata.authors | limitTo:10">
       {{author.full_name}}<span ng-if="!$last">; </span><span
-      ng-if="$last && record._source.metadata.authors.length > 10">; et al. ({{ record._source.metadata.authors.length-10 }} more authors)</span>
-    </span>
+      ng-if="$last && record._source.metadata.authors.length > 10">; et al. </span>
+    </span>({{ record._source.metadata.authors.length }} Authors)
 </div>
+
+<div>
+  <dl class="dl-horizontal">
+
+    <dt ng-if="record._source.metadata.publication_info">Published In</dt>
+    <dd>
+      <span class="regular-text" ng-repeat="pub_info in record._source.metadata.publication_info">
+        <span ng-if="pub_info.journal_title">{{pub_info.journal_title}}</span>
+        <span ng-if="pub_info.journal_volume">{{pub_info.journal_volume}}</span>
+        <span ng-if="pub_info.year">({{pub_info.year}})</span>
+        <span ng-if="pub_info.journal_issue"> {{pub_info.journal_issue}}</span>
+        <span ng-if="pub_info.artid">, {{pub_info.artid}}</span>  
+        <span ng-if="!$last"> ; </span>
+      </span>
+    </dd>
+
+    <dt ng-if="record._source.metadata.number_of_pages">Number of Pages</dt>
+    <dd>{{record._source.metadata.number_of_pages}}</dd>
+
+    <dt ng-if="record._source.metadata.public_notes">Public notes</dt>
+    <dd>
+      <span ng-if="record._source.metadata.public_notes.length === 1" class="regular-text">{{record._source.metadata.public_notes[0].value}}</span>
+      <ul ng-if="record._source.metadata.public_notes.length > 1">
+        <li ng-repeat="public_note in record._source.metadata.public_notes">{{public_note.value}}</li>
+      </ul>
+    </dd>
+
+  </dl>
 
 <div class="abstract" ng-if='record._source.metadata.abstracts.length > 0'>
   <a href="" ng-click='showAbstract=!showAbstract'>
