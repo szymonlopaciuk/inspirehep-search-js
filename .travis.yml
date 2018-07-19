@@ -1,61 +1,28 @@
-# -*- coding: utf-8 -*-
-#
-# This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
-#
-# Invenio is free software; you can redistribute it
-# and/or modify it under the terms of the GNU General Public License as
-# published by the Free Software Foundation; either version 2 of the
-# License, or (at your option) any later version.
-#
-# Invenio is distributed in the hope that it will be
-# useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Invenio; if not, write to the
-# Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
-# MA 02111-1307, USA.
-#
-# In applying this license, CERN does not
-# waive the privileges and immunities granted to it by virtue of its status
-# as an Intergovernmental Organization or submit itself to any jurisdiction.
-
 notifications:
   email: false
-
 sudo: false
-
 language: node_js
-
 node_js:
-  - '6.9.1'
-  - node
-
+- 6.9.1
+- node
 before_script:
-  - 'npm install -g gulp'
-
+- npm install -g gulp
 before_install:
-  - 'npm i'
-
+- npm i
 script:
-  - 'npm test'
-
+- npm test
 after_success:
-  - 'npm run-script coverage'
-
+- npm run-script coverage
 before_deploy:
-  - 'npm run-script build'
-
+- npm run-script build
 deploy:
   provider: npm
   skip_cleanup: true
   email: admin@inspirehep.net
   api_key:
-    secure: ksGUX3q+9XJTCNiC7UGfyBL/G99jsvdINH3e8C+uWnIzUHgriGGcRWrvKOJbhazRUOmnmpsR3G3F46vL034Rf3iyf0P1BFuJIDBHkd/e0UT534W0N7NJK/5lHgVmXA0uI7elv4uBg6LHh3F6iL52Ris6+DIWoW3AZvJM41VfbURZrtRTwaLg9N2fJMVwu3KIPu4ZdXLLURkmMl2GRMKC+2bzPSoG8NKbVNQ6CsRWuw/aMa1rIkoteqeQ55G2AfRylK/e0P6OWCscqBUBu7xrnyYNBuRCHkLv6FO3ook2cnkNBZshbbQjWb8DrerRbtvYEvMHpps6Vq9A3B1VrZXPbl2wlnIr71JpuDI3AdY+vL77UES/lkTh8kR6i9lgC42Vm8hHpj9poQmdY4wB5MqHRY1JlCkaENrSyOAbqebV3yhsx1LpjTl4AdOuwKVw1jyLB/ScnIDe5DBm1Cmv1xi0CFc2fokwDidRcxE8BWhlZ0FmGkT4Xk0wRow/5QVRvBwFA7j9HO5EtVitzsJdOgOtL8OjV0LN3tKswN8kuOyd0gZx9rrrT4ivKcNqqzbE1ug3t27UJQD8rF1VbAiq+pP3968QHwsdU2szIGR9HSF2F+q6SspdGFOXt/dgU/ZXfsyerOzDjGxIZ+e/gGuItvrcw8SbOa9soqjAZZlaAJf+L5w=
+    secure: yiO3fR9F5wnqBWs3G/XQcbaE/8l59WXnauQOvqaDIJp4rdo3KPGWEGHCRYRSWKLRXyF8f9YbYEVLrevk5/RDqExnXHAS2mMFRPp0+kgMoIW65mmIbWZ4OOBvczpvBZ7GFwPJGz887zl7nRwIc4pyOIOIEBiVdkFETf5uzou97oWj95pj44Y7ecBpiYkpMM5vF4kLWXm0CQEX5v21nuar4GiioyPkkaNpGyYzU5/XSUudQCyz2rrnZ/7a571B/MmEqN6d+3m6Anmzkde5Wni50by3Z1jUXEgLuRdFsXMGeLPp5WmW2RJhdurgY49qlCBXhjLyXnb3cDkIv/HJCZCT7krUSBAaWGNhmKY3QQVsnBQcQV6ox6jkYbP3pkEHhKh6epnMsyVCkE1FtKOBpf2qAiNDxPZDt6Kej6/KMWjeSTAuxcN3vxDjb4kppeDk8DtORRc+7bqJpuWifl3cR2iY9xiEPszBKfP0vmtCkSw/wQKeOr2v0o+If2BVA/MAkHpzYOsFiEas6ymvcsgewui2YOH1tLyqPyZvZ1DcP9QC2kUTVtXeb+pqnkFSyfNWkn+5gw6krhhEZJOFEiEGluuk/xsIuY6IPrPhKrYQlyf9mwLbZMXuCkFcnvxJdvZYZoXp4Dmf7IwmDGn11dmfDDfTsM3shU0nBCGGsfKyUxAuYrM=
   on:
     tags: true
     repo: inspirehep/inspirehep-search-js
     branch: master
-    node: '6.9.1'
+    node: 6.9.1
